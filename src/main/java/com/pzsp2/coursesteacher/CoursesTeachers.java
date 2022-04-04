@@ -49,7 +49,8 @@ public class CoursesTeachers {
     }
 
     @ManyToOne
-    @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
+    @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false,
+            insertable = false, updatable = false)
     public Course getCourse() {
         return course;
     }
@@ -59,7 +60,8 @@ public class CoursesTeachers {
     }
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false,
+            insertable = false, updatable = false)
     public Teacher getTeacher() {
         return teacher;
     }

@@ -75,7 +75,8 @@ public class Solution {
     }
 
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false,
+            insertable = false, updatable = false)
     public Question getQuestions() {
         return questions;
     }
@@ -85,7 +86,8 @@ public class Solution {
     }
 
     @ManyToOne
-    @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID", nullable = false)
+    @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID", nullable = false,
+            insertable = false, updatable = false)
     public Test getTest() {
         return test;
     }
@@ -105,7 +107,8 @@ public class Solution {
     }
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false,
+            insertable = false, updatable = false)
     public Student getStudent() {
         return student;
     }

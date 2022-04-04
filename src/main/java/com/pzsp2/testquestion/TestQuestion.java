@@ -60,7 +60,8 @@ public class TestQuestion {
     }
 
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID",
+            nullable = false, insertable = false, updatable = false)
     public Question getQuestion() {
         return question;
     }
@@ -70,7 +71,8 @@ public class TestQuestion {
     }
 
     @ManyToOne
-    @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID", nullable = false)
+    @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID",
+            nullable = false, insertable = false, updatable = false)
     public Test getTest() {
         return test;
     }
