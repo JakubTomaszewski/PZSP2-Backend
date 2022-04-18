@@ -1,5 +1,6 @@
 package com.pzsp2.course;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
 
@@ -58,6 +59,7 @@ public class Course {
     }
 
     @OneToMany(mappedBy = "course")
+    @JsonManagedReference
     public Collection<Question> getQuestions() {
         return questions;
     }

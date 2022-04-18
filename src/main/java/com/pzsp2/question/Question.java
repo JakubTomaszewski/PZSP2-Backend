@@ -1,5 +1,6 @@
 package com.pzsp2.question;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.solution.Solution;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.testquestion.TestQuestion;
@@ -110,6 +111,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
+    @JsonBackReference
     public Course getCourse() {
         return course;
     }
@@ -120,6 +122,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JsonBackReference
     public Teacher getTeachers() {
         return teachers;
     }
