@@ -1,12 +1,15 @@
 package com.pzsp2.question;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.solution.Solution;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.testquestion.TestQuestion;
 import com.pzsp2.answer.Answer;
 import com.pzsp2.course.Course;
 import com.pzsp2.multimedia.Multimedia;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,8 +17,12 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "QUESTIONS", schema = "PZSP04")
 public class Question {
+    public static String openQuestion = "O";
+    public static String closedQuestion = "C";
     private Long questionId;
     private String type;
     private String content;
@@ -28,8 +35,20 @@ public class Question {
     private Collection<Solution> solutions;
     private Collection<TestQuestion> testQuestions;
 
+    public Question(String type, String content, Date dateAdded, Collection<Answer> answers,
+                    Collection<Multimedia> multimedia, Course course, Teacher teacher) {
+        this.type = type;
+        this.content = content;
+        this.dateAdded = dateAdded;
+        this.answers = answers;
+        this.multimedia = multimedia;
+        this.course = course;
+        this.teachers = teacher;
+    }
+
     @Id
     @Column(name = "QUESTION_ID")
+    @GeneratedValue
     public Long getQuestionId() {
         return questionId;
     }
@@ -39,7 +58,7 @@ public class Question {
     }
 
     @Basic
-    @Column(name = "TYPE")
+    @Column(name = "TYPE" )
     public String getType() {
         return type;
     }
@@ -91,7 +110,7 @@ public class Question {
         return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
     }
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     public Collection<Answer> getAnswers() {
         return answers;
     }
@@ -100,7 +119,7 @@ public class Question {
         this.answers = answers;
     }
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     public Collection<Multimedia> getMultimedia() {
         return multimedia;
     }
@@ -109,9 +128,9 @@ public class Question {
         this.multimedia = multimedia;
     }
 
-    @ManyToOne
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
-    @JsonBackReference
     public Course getCourse() {
         return course;
     }
@@ -120,9 +139,9 @@ public class Question {
         this.course = course;
     }
 
-    @ManyToOne
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
-    @JsonBackReference
     public Teacher getTeachers() {
         return teachers;
     }
@@ -131,7 +150,7 @@ public class Question {
         this.teachers = teachers;
     }
 
-    @OneToMany(mappedBy = "questions")
+    @OneToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     public Collection<Solution> getSolutions() {
         return solutions;
     }
@@ -140,7 +159,7 @@ public class Question {
         this.solutions = solutions;
     }
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     public Collection<TestQuestion> getTestQuestions() {
         return testQuestions;
     }
