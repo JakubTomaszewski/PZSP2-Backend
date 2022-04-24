@@ -17,6 +17,9 @@ public class QuestionController {
     @GetMapping(path = "/all")
     public List<Question> displayAllQuestions() { return questionService.getAll(); }
 
+    @GetMapping(path = "/all/closed")
+    public List<Question> displayAllClosedQuestions() { return questionService.getAllClosed(); }
+
     @GetMapping(path = "/course")
     public List<Question> displayQuestionsByCourseCode(@RequestParam(value = "name") String name) {
         return questionService.getAllQuestionsByCourseName(name);

@@ -37,6 +37,11 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
+    public List<Question> getAllClosed() {
+        String type = "c";
+        return questionRepository.findQuestionsByTypeEqualsIgnoreCase(type);
+    }
+
     public Question addQuestion(AddQuestionRequest request) {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
