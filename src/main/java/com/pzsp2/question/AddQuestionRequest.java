@@ -24,7 +24,10 @@ public class AddQuestionRequest {
     public String content;
 
     @NotNull
-    public Long teacher_id;
+    public Long teacherId;
 
+    public List<String> answers;
+
+    public List<Boolean> areCorrect;
 
 }

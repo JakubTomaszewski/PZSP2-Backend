@@ -58,6 +58,7 @@ public class Course {
         this.coursesTeachers = coursesTeachers;
     }
 
+
     @OneToMany(mappedBy = "course")
     @JsonManagedReference
     public Collection<Question> getQuestions() {

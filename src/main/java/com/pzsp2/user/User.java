@@ -13,6 +13,7 @@ public class User {
     private String userType;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_USER_ID")
     public Long getUserUserId() {
         return userUserId;

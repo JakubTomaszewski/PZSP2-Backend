@@ -1,5 +1,6 @@
 package com.pzsp2.question;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.solution.Solution;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@SequenceGenerator(name="seq", initialValue=1)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "QUESTIONS", schema = "PZSP04")
@@ -46,9 +48,24 @@ public class Question {
         this.teachers = teacher;
     }
 
+    public Question(Long id, String type, String content, Course course, Teacher teacher) {
+        this.questionId = id;
+        this.type = type;
+        this.content = content;
+        this.course = course;
+        this.teachers = teacher;
+    }
+
+    public Question(String type, String content, Course course, Teacher teacher) {
+        this.type = type;
+        this.content = content;
+        this.course = course;
+        this.teachers = teacher;
+    }
+
     @Id
     @Column(name = "QUESTION_ID")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getQuestionId() {
         return questionId;
     }
@@ -110,7 +127,8 @@ public class Question {
         return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
     }
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "question")
     public Collection<Answer> getAnswers() {
         return answers;
     }
@@ -119,7 +137,8 @@ public class Question {
         this.answers = answers;
     }
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "question")
     public Collection<Multimedia> getMultimedia() {
         return multimedia;
     }
@@ -128,7 +147,7 @@ public class Question {
         this.multimedia = multimedia;
     }
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
     public Course getCourse() {
@@ -139,8 +158,7 @@ public class Question {
         this.course = course;
     }
 
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
     public Teacher getTeachers() {
         return teachers;
@@ -150,7 +168,7 @@ public class Question {
         this.teachers = teachers;
     }
 
-    @OneToMany(mappedBy = "questions", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "questions")
     public Collection<Solution> getSolutions() {
         return solutions;
     }
@@ -159,7 +177,7 @@ public class Question {
         this.solutions = solutions;
     }
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "question")
     public Collection<TestQuestion> getTestQuestions() {
         return testQuestions;
     }

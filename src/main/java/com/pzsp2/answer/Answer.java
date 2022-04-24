@@ -1,13 +1,18 @@
 package com.pzsp2.answer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.question.Question;
 import com.pzsp2.solution.Solution;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ANSWERS", schema = "PZSP04")
 public class Answer {
     private Long answerId;
@@ -16,7 +21,14 @@ public class Answer {
     private Question question;
     private Collection<Solution> solutions;
 
+    public Answer(String content, Boolean isCorrect, Question question) {
+        this.content = content;
+        this.isCorrect = isCorrect;
+        this.question = question;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ANSWER_ID")
     public Long getAnswerId() {
         return answerId;
@@ -59,6 +71,7 @@ public class Answer {
         return Objects.hash(answerId, content, isCorrect);
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false)
     public Question getQuestion() {

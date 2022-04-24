@@ -1,5 +1,7 @@
 package com.pzsp2.teacher;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.test.Test;
 import com.pzsp2.coursesteacher.CoursesTeachers;
@@ -34,6 +36,7 @@ public class Teacher extends User{
     }
 
     @Basic
+    @JsonIgnore
     @Column(name = "TEACH_PASSWORD")
     public String getPassword() {
         return password;
@@ -65,8 +68,8 @@ public class Teacher extends User{
         this.coursesTeachers = coursesTeachers;
     }
 
-    @OneToMany(mappedBy = "teachers")
-    @JsonManagedReference
+    @JsonBackReference
+    @OneToMany(mappedBy = "teachers", fetch = FetchType.LAZY)
     public Collection<Question> getQuestions() {
         return questions;
     }
