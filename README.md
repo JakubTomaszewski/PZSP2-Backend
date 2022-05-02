@@ -34,3 +34,13 @@ To create jar file:
 ```
 $ mvn jar:jar
 ```
+
+To compile, package, convert application to a Docker image and run this image:
+
+
+```
+$ mvn spring-boot:build-image
+$ docker run -it -p8080:8080 {name_of_the_image} 
+```
+
+
