@@ -3,8 +3,6 @@ package com.pzsp2.question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -18,7 +16,6 @@ public class QuestionController {
     @GetMapping(path = "/all")
     public List<Question> displayAllQuestions() { return questionService.getAll(); }
 
-    
     @GetMapping(path = "/all/closed")
     public List<Question> displayAllClosedQuestions() { return questionService.getAllClosed(); }
 
@@ -31,6 +28,4 @@ public class QuestionController {
     public Question saveQuestion(@RequestBody AddQuestionRequest request) {
         return questionService.addQuestion(request);
     }
-
-
 }
