@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Locale;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
@@ -26,11 +28,11 @@ public class QuestionService {
 
 
     public List<Question> getAllQuestionsByCourseCode(String courseCode) {
-        return questionRepository.findQuestionsByCourseCourseCode(courseCode);
+        return questionRepository.getQuestionsByCourseCourseCode(courseCode);
     }
 
     public List<Question> getAllQuestionsByCourseName(String courseName) {
-        return questionRepository.findQuestionsByCourseName(courseName);
+        return questionRepository.getQuestionsByCourseName(courseName);
     }
 
     public List<Question> getAll() {
@@ -39,30 +41,25 @@ public class QuestionService {
 
     public List<Question> getAllClosed() {
         String type = "c";
-        return questionRepository.findQuestionsByTypeEqualsIgnoreCase(type);
+        return questionRepository.getQuestionsByTypeEqualsIgnoreCase(type);
     }
 
     public Question addQuestion(AddQuestionRequest request) {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         Course course = courseRepository.findCourseByCourseCode(request.getCourseCode());
-        //request.getTeacherId() should be added temporarly 1 as id added
         Teacher teacher = teacherRepository.findTeacherByUserUserId(1L);
         List<Answer> answers = new ArrayList<>();
         Question question = new Question(request.getType(), request.getContent(), course, teacher);
         question.setDateAdded(sqlDate);
-        if (question == null) {
-            throw new ResourceNotFoundException();
-        } else {
-            Question question2 =  questionRepository.save(question);
-            if (question2.getType().toLowerCase(Locale.ROOT).equals("c")) {
-                for(int i = 0; i < request.getAnswers().size(); i++) {
-                    answerRepository.save(
-                            new Answer(request.getAnswers().get(i), request.getAreCorrect().get(i), question));
+        Question saved = questionRepository.save(question);
+        if (request.getType().toLowerCase(Locale.ROOT).equals("c")) {
+            for(int i = 0; i < request.getAnswers().size(); i++) {
+                answers.add(answerRepository.save(new Answer(request.getAnswers().get(i),
+                        request.getAreCorrect().get(i), saved)));
                 }
-            }
-            return  questionRepository.getById(question2.getQuestionId());
-        }
-
+            if(saved != null) { saved.setAnswers(answers); }
+        };
+        return saved; a
     }
 }

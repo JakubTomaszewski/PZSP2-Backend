@@ -12,9 +12,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Override
     List<Question> findAll();
 
-    List<Question> findQuestionsByCourseCourseCode(String code);
+    List<Question> getQuestionsByCourseCourseCode(String code);
 
-    List<Question> findQuestionsByCourseName(String name);
+    List<Question> getQuestionsByCourseName(String name);
 
-    List<Question> findQuestionsByTypeEqualsIgnoreCase(String type);
+    List<Question> getQuestionsByTypeEqualsIgnoreCase(String type);
 }
