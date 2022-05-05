@@ -7,12 +7,10 @@ import com.pzsp2.course.CourseRepository;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.teacher.TeacherRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,7 +57,7 @@ public class QuestionService {
                         request.getAreCorrect().get(i), saved)));
                 }
             if(saved != null) { saved.setAnswers(answers); }
-        };
-        return saved; a
+        }
+        return saved;
     }
 }
