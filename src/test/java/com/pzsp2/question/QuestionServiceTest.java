@@ -34,6 +34,16 @@ class QuestionServiceTest {
     }
 
     @Test
+    void canGetAllQuestionsByTeachersLogin() {
+        //given
+        String login = "testLogin";
+        //when
+        underTest.getAllQuestionsByTeacherLogin(login);
+        //then
+        verify(questionRepository).getQuestionsByTeachersLogin(login);
+    }
+
+    @Test
     void canGetAllQuestionsByCourseCode() {
         //given
         String courseCode = "A01";
@@ -54,7 +64,7 @@ class QuestionServiceTest {
     }
 
     @Test
-    void getAll() {
+    void canGetAll() {
         //when
         underTest.getAll();
         //then
@@ -62,7 +72,7 @@ class QuestionServiceTest {
     }
 
     @Test
-    void getAllClosed() {
+    void canGetAllClosed() {
         //when
         underTest.getAllClosed();
         //then
