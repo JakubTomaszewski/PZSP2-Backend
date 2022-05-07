@@ -1,5 +1,6 @@
 package com.pzsp2.coursesteacher;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.course.Course;
 
@@ -48,6 +49,7 @@ public class CoursesTeachers {
         return Objects.hash(courseCode, userId);
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false,
             insertable = false, updatable = false)
@@ -59,6 +61,7 @@ public class CoursesTeachers {
         this.course = course;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false,
             insertable = false, updatable = false)

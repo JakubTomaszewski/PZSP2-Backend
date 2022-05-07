@@ -49,6 +49,7 @@ public class Course {
         return Objects.hash(courseCode, name);
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "course")
     public Collection<CoursesTeachers> getCoursesTeachers() {
         return coursesTeachers;

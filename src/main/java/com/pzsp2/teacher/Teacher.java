@@ -42,6 +42,7 @@ public class Teacher extends User{
         return password;
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "teacher")
     public Collection<CoursesTeachers> getCoursesTeachers() {
         return coursesTeachers;

@@ -20,6 +20,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByQuestionIdIn(List<Long> ids);
 
+    List<Question> getQuestionsByTeachersLogin(String login);
+
     int countQuestionsByQuestionIdIn(List<Long> ids);
 
 }

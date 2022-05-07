@@ -19,9 +19,19 @@ public class QuestionController {
     @GetMapping(path = "/all/closed")
     public List<Question> displayAllClosedQuestions() { return questionService.getAllClosed(); }
 
-    @GetMapping(path = "/course")
-    public List<Question> displayQuestionsByCourseCode(@RequestParam(value = "name") String name) {
+    @GetMapping(path = "/course/name")
+    public List<Question> displayQuestionsByCourseName(@RequestParam(value = "name") String name) {
         return questionService.getAllQuestionsByCourseName(name);
+    }
+
+    @GetMapping(path = "/course/code")
+    public List<Question> displayQuestionsByCourseCode(@RequestParam(value = "code") String code) {
+        return questionService.getAllQuestionsByCourseCode(code);
+    }
+
+    @GetMapping(path = "/teacher")
+    public List<Question> displayQuestionsByTeacherLogin(@RequestParam(value = "login") String login) {
+        return questionService.getAllQuestionsByTeacherLogin(login);
     }
 
     @PostMapping(path="/save", consumes = MediaType.APPLICATION_JSON_VALUE)
