@@ -4,30 +4,28 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class AddQuestionRequest {
 
     @NotNull
-    public String courseCode;
+    private String courseCode;
 
     @NotNull
-    public String type;
+    private String type;
 
     @NotNull
-    public String content;
+    private String content;
 
     @NotNull
-    public Long teacherId;
+    private Long teacherId;
 
-    public List<String> answers;
+    private List<String> answers;
 
-    public List<Boolean> areCorrect;
+    private List<Boolean> areCorrect;
 
 }

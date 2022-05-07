@@ -17,6 +17,7 @@ public class Multimedia {
 
     @Id
     @Column(name = "MULTIMEDIA_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     public Long getMultimediaId() {
         return multimediaId;
     }

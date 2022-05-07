@@ -11,6 +11,7 @@ import com.pzsp2.course.Course;
 import com.pzsp2.multimedia.Multimedia;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -21,6 +22,7 @@ import java.util.Objects;
 @SequenceGenerator(name="seq", initialValue=1)
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Table(name = "QUESTIONS", schema = "PZSP04")
 public class Question {
     public static String openQuestion = "O";
@@ -65,13 +67,9 @@ public class Question {
 
     @Id
     @Column(name = "QUESTION_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     public Long getQuestionId() {
         return questionId;
-    }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
     }
 
     @Basic
@@ -80,18 +78,10 @@ public class Question {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Basic
     @Column(name = "CONTENT")
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     @Basic
@@ -100,18 +90,10 @@ public class Question {
         return dateAdded;
     }
 
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
     @Basic
     @Column(name = "DATE_LAST_USED")
     public Date getDateLastUsed() {
         return dateLastUsed;
-    }
-
-    public void setDateLastUsed(Date dateLastUsed) {
-        this.dateLastUsed = dateLastUsed;
     }
 
     @Override
@@ -133,18 +115,10 @@ public class Question {
         return answers;
     }
 
-    public void setAnswers(Collection<Answer> answers) {
-        this.answers = answers;
-    }
-
     @JsonManagedReference
     @OneToMany(mappedBy = "question")
     public Collection<Multimedia> getMultimedia() {
         return multimedia;
-    }
-
-    public void setMultimedia(Collection<Multimedia> multimedia) {
-        this.multimedia = multimedia;
     }
 
     @JsonBackReference
@@ -154,18 +128,10 @@ public class Question {
         return course;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
     @ManyToOne()
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
     public Teacher getTeachers() {
         return teachers;
-    }
-
-    public void setTeachers(Teacher teachers) {
-        this.teachers = teachers;
     }
 
     @OneToMany(mappedBy = "questions")
@@ -173,16 +139,10 @@ public class Question {
         return solutions;
     }
 
-    public void setSolutions(Collection<Solution> solutions) {
-        this.solutions = solutions;
-    }
-
+    @JsonBackReference
     @OneToMany(mappedBy = "question")
     public Collection<TestQuestion> getTestQuestions() {
         return testQuestions;
     }
 
-    public void setTestQuestions(Collection<TestQuestion> testQuestions) {
-        this.testQuestions = testQuestions;
-    }
 }

@@ -46,7 +46,7 @@ public class QuestionService {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         Course course = courseRepository.findCourseByCourseCode(request.getCourseCode());
-        Teacher teacher = teacherRepository.findTeacherByUserUserId(1L);
+        Teacher teacher = teacherRepository.getTeacherByUserUserId(1L);
         List<Answer> answers = new ArrayList<>();
         Question question = new Question(request.getType(), request.getContent(), course, teacher);
         question.setDateAdded(sqlDate);
