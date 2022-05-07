@@ -7,5 +7,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Override
     List<Teacher> findAll();
 
-    Teacher findTeacherByUserUserId(Long id);
+    Teacher getTeacherByUserUserId(Long id);
 }

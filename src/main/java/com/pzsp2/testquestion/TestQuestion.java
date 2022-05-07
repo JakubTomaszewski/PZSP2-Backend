@@ -1,12 +1,18 @@
 package com.pzsp2.testquestion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.question.Question;
 import com.pzsp2.test.Test;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "TEST_QUESTIONS", schema = "PZSP04")
 @IdClass(TestQuestionPK.class)
 public class TestQuestion {
@@ -59,6 +65,7 @@ public class TestQuestion {
         return Objects.hash(questionId, questionNo, testId);
     }
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID",
             nullable = false, insertable = false, updatable = false)
@@ -70,6 +77,7 @@ public class TestQuestion {
         this.question = question;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID",
             nullable = false, insertable = false, updatable = false)

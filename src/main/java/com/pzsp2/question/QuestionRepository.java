@@ -17,4 +17,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> getQuestionsByCourseName(String name);
 
     List<Question> getQuestionsByTypeEqualsIgnoreCase(String type);
+
+    List<Question> findByQuestionIdIn(List<Long> ids);
+
+    int countQuestionsByQuestionIdIn(List<Long> ids);
+
 }
