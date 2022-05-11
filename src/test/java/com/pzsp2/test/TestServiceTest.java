@@ -66,7 +66,7 @@ class TestServiceTest {
         given(questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId()))
                 .willReturn(request.getQuestionsId().size());
         //when
-        when(teacherRepository.getById(request.getTeacherId())).thenReturn(teacher);
+        when(teacherRepository.getTeacherByUserUserId(request.getTeacherId())).thenReturn(teacher);
         when(testRepository.save(Mockito.any(com.pzsp2.test.Test.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
         //then
