@@ -34,8 +34,14 @@ public class QuestionController {
         return questionService.getAllQuestionsByTeacherLogin(login);
     }
 
-    @PostMapping(path="/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Question saveQuestion(@RequestBody AddQuestionRequest request) {
         return questionService.addQuestion(request);
     }
+
+    @DeleteMapping()
+    public Question deleteQuestionById(@RequestParam(value = "id") Long id){
+        return questionService.deleteQuestionById(id);
+    }
+
 }

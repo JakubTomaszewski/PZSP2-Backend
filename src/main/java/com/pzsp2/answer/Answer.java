@@ -1,6 +1,8 @@
 package com.pzsp2.answer;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.question.Question;
 import com.pzsp2.solution.Solution;
 import lombok.AllArgsConstructor;
@@ -82,6 +84,8 @@ public class Answer {
         this.question = question;
     }
 
+    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "answers")
     public Collection<Solution> getSolutions() {
         return solutions;

@@ -1,6 +1,7 @@
 package com.pzsp2.multimedia;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pzsp2.question.Question;
 
 import javax.persistence.*;
@@ -71,6 +72,7 @@ public class Multimedia {
         return result;
     }
 
+    @JsonIgnore
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false)

@@ -4,15 +4,14 @@ import com.pzsp2.answer.Answer;
 import com.pzsp2.answer.AnswerRepository;
 import com.pzsp2.course.Course;
 import com.pzsp2.course.CourseRepository;
+import com.pzsp2.exception.ApiRequestException;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.teacher.TeacherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
@@ -63,5 +62,15 @@ public class QuestionService {
             if(saved != null) { saved.setAnswers(answers); }
         }
         return saved;
+    }
+
+    public Question deleteQuestionById(Long id) {
+        Optional<Question> question = questionRepository.findById(id);
+        if(question.isPresent()) {
+            questionRepository.delete(question.get());
+            return question.get();
+        }
+        else
+            throw new ApiRequestException("Question with id: " + id + " doesn't exist");
     }
 }

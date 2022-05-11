@@ -1,5 +1,6 @@
 package com.pzsp2.solution;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.student.Student;
 import com.pzsp2.test.Test;
 import com.pzsp2.answer.Answer;
@@ -96,6 +97,7 @@ public class Solution {
         this.test = test;
     }
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID", referencedColumnName = "ANSWER_ID")
     public Answer getAnswers() {

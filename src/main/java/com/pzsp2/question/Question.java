@@ -2,6 +2,7 @@ package com.pzsp2.question;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.solution.Solution;
 import com.pzsp2.teacher.Teacher;
@@ -110,13 +111,13 @@ public class Question {
     }
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "question")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "question")
     public Collection<Answer> getAnswers() {
         return answers;
     }
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     public Collection<Multimedia> getMultimedia() {
         return multimedia;
     }
@@ -129,18 +130,20 @@ public class Question {
     }
 
     @ManyToOne()
+    @JsonBackReference
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
     public Teacher getTeachers() {
         return teachers;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "questions")
     public Collection<Solution> getSolutions() {
         return solutions;
     }
 
     @JsonBackReference
-    @OneToMany(mappedBy = "question")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "question")
     public Collection<TestQuestion> getTestQuestions() {
         return testQuestions;
     }
