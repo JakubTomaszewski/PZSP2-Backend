@@ -3,11 +3,17 @@ package com.pzsp2.coursesteacher;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.course.Course;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "COURSES_TEACHERS", schema = "PZSP04")
 @IdClass(CoursesTeachersPK.class)
 public class CoursesTeachers {
@@ -22,18 +28,10 @@ public class CoursesTeachers {
         return courseCode;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
     @Id
     @Column(name = "USER_ID")
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     @Override
@@ -57,19 +55,11 @@ public class CoursesTeachers {
         return course;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false,
             insertable = false, updatable = false)
     public Teacher getTeacher() {
         return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
     }
 }

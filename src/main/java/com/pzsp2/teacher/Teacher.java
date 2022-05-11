@@ -3,14 +3,14 @@ package com.pzsp2.teacher;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.test.Test;
 import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
+import com.pzsp2.test.Test;
 import com.pzsp2.user.User;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -19,7 +19,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
-@EqualsAndHashCode
 @Entity
 @Table(name = "TEACHERS", schema = "PZSP04")
 public class Teacher extends User{
@@ -60,4 +59,16 @@ public class Teacher extends User{
         return tests;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Teacher teacher = (Teacher) o;
+        return getUserUserId() != null && Objects.equals(getUserUserId(), teacher.getUserUserId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

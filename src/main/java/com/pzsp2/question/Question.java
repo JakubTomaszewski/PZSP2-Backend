@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name="seq", initialValue=1)
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -39,32 +38,6 @@ public class Question {
     private Teacher teachers;
     private Collection<Solution> solutions;
     private Collection<TestQuestion> testQuestions;
-
-    public Question(String type, String content, Date dateAdded, Collection<Answer> answers,
-                    Collection<Multimedia> multimedia, Course course, Teacher teacher) {
-        this.type = type;
-        this.content = content;
-        this.dateAdded = dateAdded;
-        this.answers = answers;
-        this.multimedia = multimedia;
-        this.course = course;
-        this.teachers = teacher;
-    }
-
-    public Question(Long id, String type, String content, Course course, Teacher teacher) {
-        this.questionId = id;
-        this.type = type;
-        this.content = content;
-        this.course = course;
-        this.teachers = teacher;
-    }
-
-    public Question(String type, String content, Course course, Teacher teacher) {
-        this.type = type;
-        this.content = content;
-        this.course = course;
-        this.teachers = teacher;
-    }
 
     @Id
     @Column(name = "QUESTION_ID")

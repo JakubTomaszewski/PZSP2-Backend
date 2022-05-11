@@ -5,11 +5,17 @@ import com.pzsp2.student.Student;
 import com.pzsp2.test.Test;
 import com.pzsp2.answer.Answer;
 import com.pzsp2.question.Question;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "SOLUTIONS", schema = "PZSP04")
 @IdClass(SolutionPK.class)
 public class Solution {
@@ -48,10 +54,6 @@ public class Solution {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     @Id
     @Column(name = "USER_ID")
     public Long getUserId() {
@@ -82,19 +84,11 @@ public class Solution {
         return questions;
     }
 
-    public void setQuestions(Question questions) {
-        this.questions = questions;
-    }
-
     @ManyToOne
     @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID", nullable = false,
             insertable = false, updatable = false)
     public Test getTest() {
         return test;
-    }
-
-    public void setTest(Test test) {
-        this.test = test;
     }
 
     @JsonBackReference
@@ -104,18 +98,10 @@ public class Solution {
         return answers;
     }
 
-    public void setAnswers(Answer answers) {
-        this.answers = answers;
-    }
-
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false,
             insertable = false, updatable = false)
     public Student getStudent() {
         return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 }

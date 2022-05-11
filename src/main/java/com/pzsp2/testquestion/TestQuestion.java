@@ -6,6 +6,7 @@ import com.pzsp2.question.Question;
 import com.pzsp2.test.Test;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 @Table(name = "TEST_QUESTIONS", schema = "PZSP04")
 @IdClass(TestQuestionPK.class)
 public class TestQuestion {
@@ -28,28 +30,16 @@ public class TestQuestion {
         return questionId;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
-
     @Basic
     @Column(name = "QUESTION_NO")
     public Integer getQuestionNo() {
         return questionNo;
     }
 
-    public void setQuestionNo(Integer questionNo) {
-        this.questionNo = questionNo;
-    }
-
     @Id
     @Column(name = "TEST_ID")
     public Long getTestId() {
         return testId;
-    }
-
-    public void setTestId(Long testId) {
-        this.testId = testId;
     }
 
     @Override
@@ -73,19 +63,11 @@ public class TestQuestion {
         return question;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "TEST_ID", referencedColumnName = "TEST_ID",
             nullable = false, insertable = false, updatable = false)
     public Test getTest() {
         return test;
-    }
-
-    public void setTest(Test test) {
-        this.test = test;
     }
 }

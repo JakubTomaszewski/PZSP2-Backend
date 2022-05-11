@@ -51,7 +51,11 @@ public class QuestionService {
         Course course = courseRepository.findCourseByCourseCode(request.getCourseCode());
         Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
         List<Answer> answers = new ArrayList<>();
-        Question question = new Question(request.getType(), request.getContent(), course, teacher);
+        Question question = new Question();
+        question.setType(request.getType());
+        question.setContent(request.getContent());
+        question.setCourse(course);
+        question.setTeachers(teacher);
         question.setDateAdded(sqlDate);
         Question saved = questionRepository.save(question);
         if (request.getType().toLowerCase(Locale.ROOT).equals("c")) {

@@ -3,12 +3,18 @@ package com.pzsp2.multimedia;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pzsp2.question.Question;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Multimedia {
     private Long multimediaId;
     private String type;
@@ -33,28 +39,16 @@ public class Multimedia {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     @Basic
     @Column(name = "LINK")
     public String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
     @Basic
     @Column(name = "CONTENT")
     public byte[] getContent() {
         return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
     }
 
     @Override
@@ -78,9 +72,5 @@ public class Multimedia {
     @JoinColumn(name = "QUESTION_ID", referencedColumnName = "QUESTION_ID", nullable = false)
     public Question getQuestion() {
         return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
     }
 }

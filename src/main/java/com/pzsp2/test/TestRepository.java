@@ -1,6 +1,5 @@
 package com.pzsp2.test;
 
-import com.pzsp2.question.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

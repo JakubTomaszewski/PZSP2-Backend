@@ -3,12 +3,18 @@ package com.pzsp2.course;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "COURSES", schema = "PZSP04")
 public class Course {
     private String courseCode;
@@ -22,18 +28,10 @@ public class Course {
         return courseCode;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
     @Basic
     @Column(name = "NAME")
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -55,18 +53,9 @@ public class Course {
         return coursesTeachers;
     }
 
-    public void setCoursesTeachers(Collection<CoursesTeachers> coursesTeachers) {
-        this.coursesTeachers = coursesTeachers;
-    }
-
-
     @OneToMany(mappedBy = "course")
     @JsonManagedReference
     public Collection<Question> getQuestions() {
         return questions;
-    }
-
-    public void setQuestions(Collection<Question> questions) {
-        this.questions = questions;
     }
 }

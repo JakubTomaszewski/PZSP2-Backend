@@ -4,7 +4,6 @@ import com.pzsp2.exception.ApiRequestException;
 import com.pzsp2.question.QuestionRepository;
 import com.pzsp2.teacher.Teacher;
 import com.pzsp2.teacher.TeacherRepository;
-import com.pzsp2.testquestion.TestQuestion;
 import com.pzsp2.testquestion.TestQuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 
 import java.sql.Date;
 import java.util.ArrayList;

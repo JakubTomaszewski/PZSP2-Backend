@@ -1,9 +1,12 @@
 package com.pzsp2.user;
 
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USERS", schema = "PZSP04")
 public class User {
@@ -19,18 +22,10 @@ public class User {
         return userUserId;
     }
 
-    public void setUserUserId(Long userUserId) {
-        this.userUserId = userUserId;
-    }
-
     @Basic
     @Column(name = "USER_LAST_NAME")
     public String getUserLastName() {
         return userLastName;
-    }
-
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
     }
 
     @Basic
@@ -39,18 +34,10 @@ public class User {
         return userFirstName;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
-    }
-
     @Basic
     @Column(name = "USER_TYPE")
     public String getUserType() {
         return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     @Override

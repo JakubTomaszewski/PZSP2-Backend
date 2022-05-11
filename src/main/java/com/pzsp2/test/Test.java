@@ -1,12 +1,12 @@
 package com.pzsp2.test;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.testquestion.TestQuestion;
 import com.pzsp2.solution.Solution;
 import com.pzsp2.teacher.Teacher;
-import lombok.EqualsAndHashCode;
+import com.pzsp2.testquestion.TestQuestion;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -15,7 +15,6 @@ import java.util.Objects;
 
 @Entity
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "TESTS", schema = "PZSP04")
 public class Test {
@@ -76,4 +75,16 @@ public class Test {
         return testQuestions;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Test test = (Test) o;
+        return getTestId() != null && Objects.equals(getTestId(), test.getTestId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

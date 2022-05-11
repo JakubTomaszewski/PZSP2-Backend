@@ -1,10 +1,13 @@
 package com.pzsp2.coursesteacher;
 
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
 public class CoursesTeachersPK implements Serializable {
     private String courseCode;
     private Long userId;
@@ -15,18 +18,10 @@ public class CoursesTeachersPK implements Serializable {
         return courseCode;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
-    }
-
     @Column(name = "USER_ID")
     @Id
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     @Override
