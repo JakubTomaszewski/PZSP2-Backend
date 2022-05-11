@@ -1,5 +1,6 @@
 package com.pzsp2.question;
 
+import com.pzsp2.answer.Answer;
 import com.pzsp2.answer.AnswerRepository;
 import com.pzsp2.course.CourseRepository;
 import com.pzsp2.exception.ApiRequestException;
@@ -10,12 +11,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionServiceTest {
@@ -91,7 +95,7 @@ class QuestionServiceTest {
         Long id = 2L;
         List<String> answers = Arrays.asList("1", "2", "3", "4");
         List<Boolean> areCorrect = Arrays.asList(true, false, false, false);
-        AddQuestionRequest request = new AddQuestionRequest(courseCode, type, content, id, answers, areCorrect);
+        QuestionRequest request = new QuestionRequest(courseCode, type, content, id, answers, areCorrect);
         //when
         underTest.addQuestion(request);
         //then
@@ -117,7 +121,7 @@ class QuestionServiceTest {
     }
 
     @Test
-    void shouldThrowBadRequestExceptionWhenQuestionDoesNotExist() {
+    void deleteShouldThrowBadRequestExceptionWhenQuestionDoesNotExist() {
         //given
         Long testId = 1415L;
         given(questionRepository.findById(testId))
@@ -130,4 +134,126 @@ class QuestionServiceTest {
 
     }
 
+    @Test
+    void canModifyQuestiontoClosedOne() {
+        //given
+        ModifyQuestionRequest request = new ModifyQuestionRequest();
+        request.setQuestionId(12L);
+        request.setCourseCode("A04");
+        request.setType("c");
+        request.setContent("testContent");
+        request.setTeacherId(2L);
+        request.setAnswers(Arrays.asList("1", "2", "3", "4"));
+        request.setAreCorrect(Arrays.asList(true, false, false, false));
+        Question question = new Question();
+        Answer answer = new Answer();
+        answer.setContent("start");
+        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        question.setAnswers(answers);
+        given(questionRepository.findById(request.getQuestionId()))
+                .willReturn(Optional.of(question));
+        given(courseRepository.existsCourseByCourseCode(request.getCourseCode()))
+                .willReturn(true);
+        given(teacherRepository.existsByUserUserId(request.getTeacherId()))
+                .willReturn(true);
+        given(answerRepository.save(Mockito.any(Answer.class)))
+                .willAnswer(i -> i.getArguments()[0]);
+        //when
+        underTest.modifyQuestion(request);
+        //then
+        verify(courseRepository).findCourseByCourseCode(request.getCourseCode());
+        verify(teacherRepository).getTeacherByUserUserId(request.getTeacherId());
+        assertThat(question.getContent()).isEqualTo(request.getContent());
+        assertThat(question.getType()).isEqualTo(request.getType());
+        ArrayList<Answer> questionAnswers = new ArrayList<>(question.getAnswers());
+        if(question.getType().toLowerCase(Locale.ROOT).equals("c")) {
+            for(int i = 0; i < question.getAnswers().size(); i++) {
+                assertThat(questionAnswers.get(i).getContent()).isEqualTo(request.getAnswers().get(i));
+                assertThat(questionAnswers.get(i).getIsCorrect()).isEqualTo(request.getAreCorrect().get(i));
+            }
+        }
+
+    }
+
+    @Test
+    void canModifyQuestionToOpenedOne() {
+        //given
+        ModifyQuestionRequest request = new ModifyQuestionRequest();
+        request.setQuestionId(12L);
+        request.setCourseCode("A04");
+        request.setType("o");
+        request.setContent("testContent");
+        request.setTeacherId(2L);
+        Question question = new Question();
+        Answer answer = new Answer();
+        answer.setContent("start");
+        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        question.setAnswers(answers);
+        given(questionRepository.findById(request.getQuestionId()))
+                .willReturn(Optional.of(question));
+        given(courseRepository.existsCourseByCourseCode(request.getCourseCode()))
+                .willReturn(true);
+        given(teacherRepository.existsByUserUserId(request.getTeacherId()))
+                .willReturn(true);
+        //when
+        underTest.modifyQuestion(request);
+        //then
+        verify(courseRepository).findCourseByCourseCode(request.getCourseCode());
+        verify(teacherRepository).getTeacherByUserUserId(request.getTeacherId());
+        assertThat(question.getContent()).isEqualTo(request.getContent());
+        assertThat(question.getType()).isEqualTo(request.getType());
+        assertThat(question.getAnswers().size()).isEqualTo(0);
+    }
+
+    @Test
+    void modifyShouldThrowBadRequestExceptionWhenQuestionDoesNotExist() {
+        //given
+        ModifyQuestionRequest request = new ModifyQuestionRequest();
+        request.setQuestionId(12515L);
+        given(questionRepository.findById(request.getQuestionId()))
+                .willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.modifyQuestion(request))
+                .isInstanceOf(ApiRequestException.class)
+                .hasMessageContaining("Question with id: " + request.getQuestionId() + " doesn't exist");
+    }
+
+    @Test
+    void modifyShouldThrowBadRequestExceptionWhenTeacherDoesNotExist() {
+        //given
+        ModifyQuestionRequest request = new ModifyQuestionRequest();
+        request.setQuestionId(12515L);
+        request.setTeacherId(1534L);
+        Question question = new Question();
+        given(questionRepository.findById(request.getQuestionId()))
+                .willReturn(Optional.of(question));
+        given(courseRepository.existsCourseByCourseCode(request.getCourseCode()))
+                .willReturn(true);
+        given(teacherRepository.existsByUserUserId(request.getTeacherId()))
+                .willReturn(false);
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.modifyQuestion(request))
+                .isInstanceOf(ApiRequestException.class)
+                .hasMessageContaining("Teacher with id: " + request.getTeacherId() + " doesn't exist");
+    }
+
+    @Test
+    void modifyShouldThrowBadRequestExceptionWhenCourseDoesNotExist() {
+        //given
+        ModifyQuestionRequest request = new ModifyQuestionRequest();
+        request.setQuestionId(12515L);
+        request.setCourseCode("TestCode");
+        Question question = new Question();
+        given(questionRepository.findById(request.getQuestionId()))
+                .willReturn(Optional.of(question));
+        given(courseRepository.existsCourseByCourseCode(request.getCourseCode()))
+                .willReturn(false);
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.modifyQuestion(request))
+                .isInstanceOf(ApiRequestException.class)
+                .hasMessageContaining("Course with code: " + request.getCourseCode() + " doesn't exist");
+    }
 }
