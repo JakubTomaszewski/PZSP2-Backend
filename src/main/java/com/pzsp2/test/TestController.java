@@ -19,6 +19,6 @@ public class TestController {
     @GetMapping(path = "/all")
     public List<Test> displayAllTests() { return testService.getAllTests(); }
 
-    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Test saveTest(@RequestBody AddTestRequest request) { return testService.addTest(request); }
 }
