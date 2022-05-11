@@ -2,6 +2,7 @@ package com.pzsp2.question;
 
 import com.pzsp2.answer.AnswerRepository;
 import com.pzsp2.course.CourseRepository;
+import com.pzsp2.exception.ApiRequestException;
 import com.pzsp2.teacher.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -98,4 +102,33 @@ class QuestionServiceTest {
         assertThat(capturedQuestion.getContent()).isEqualTo(request.getContent());
         assertThat(capturedQuestion.getDateAdded()).isNotNull();
     }
+
+    @Test
+    void canDeleteQuestionWhenItExists() {
+        //given
+        Long testId = 1415L;
+        Question question = new Question();
+        question.setQuestionId(testId);
+        given(questionRepository.findById(testId))
+                .willReturn(Optional.of(question));
+        //when
+        underTest.deleteQuestionById(testId);
+        //then
+        verify(questionRepository).delete(question);
+    }
+
+    @Test
+    void shouldThrowBadRequestExceptionWhenQuestionDoesNotExist() {
+        //given
+        Long testId = 1415L;
+        given(questionRepository.findById(testId))
+                .willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.deleteQuestionById(testId))
+                .isInstanceOf(ApiRequestException.class)
+                .hasMessageContaining("Question with id: " + testId + " doesn't exist");
+
+    }
+
 }
