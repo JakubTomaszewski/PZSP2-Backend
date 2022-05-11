@@ -35,13 +35,18 @@ public class QuestionController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Question saveQuestion(@RequestBody AddQuestionRequest request) {
+    public Question saveQuestion(@RequestBody QuestionRequest request) {
         return questionService.addQuestion(request);
     }
 
     @DeleteMapping()
     public Question deleteQuestionById(@RequestParam(value = "id") Long id){
         return questionService.deleteQuestionById(id);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Question updateQuestion(@RequestBody ModifyQuestionRequest request) {
+        return questionService.modifyQuestion(request);
     }
 
 }

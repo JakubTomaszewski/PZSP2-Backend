@@ -8,4 +8,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     List<Teacher> findAll();
 
     Teacher getTeacherByUserUserId(Long id);
+
+    Boolean existsByUserUserId(Long teacherId);
 }

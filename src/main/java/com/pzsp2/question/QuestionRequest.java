@@ -1,16 +1,16 @@
 package com.pzsp2.question;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode
-public class AddQuestionRequest {
+public class QuestionRequest {
 
     @NotNull
     private String courseCode;

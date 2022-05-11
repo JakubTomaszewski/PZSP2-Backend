@@ -22,4 +22,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     int countQuestionsByQuestionIdIn(List<Long> ids);
 
+
 }
