@@ -47,6 +47,7 @@ public class Teacher extends User{
         return coursesTeachers;
     }
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "teachers", fetch = FetchType.LAZY)
     public Collection<Question> getQuestions() {

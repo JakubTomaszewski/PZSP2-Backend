@@ -10,4 +10,6 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     @Override
     List<Test> findAll();
 
+    Test getTestByTestId(Long id);
+
 }

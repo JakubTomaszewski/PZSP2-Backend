@@ -25,6 +25,8 @@ public class TestService {
 
     public List<Test> getAllTests() { return testRepository.findAll();}
 
+    public Test getTestById(Long id) { return testRepository.getTestByTestId(id); }
+
     public Test addTest(AddTestRequest request) {
         //validate questions!
         int numberOfIds = questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId());
@@ -70,5 +72,6 @@ public class TestService {
         return test;
 
     }
+
 
 }

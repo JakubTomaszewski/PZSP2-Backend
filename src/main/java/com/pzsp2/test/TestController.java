@@ -19,6 +19,9 @@ public class TestController {
     @GetMapping(path = "/all")
     public List<Test> displayAllTests() { return testService.getAllTests(); }
 
+    @GetMapping()
+    public Test displayTestById(@RequestParam(value = "id") Long id) { return testService.getTestById(id); }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Test saveTest(@RequestBody AddTestRequest request) { return testService.addTest(request); }
 }
