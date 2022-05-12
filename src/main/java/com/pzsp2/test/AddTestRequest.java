@@ -12,14 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class AddTestRequest {
-    @NotNull
-    private List<Long> questionsId;
+  @NotNull private List<Long> questionsId;
 
-    @NotNull
-    private Long teacherId;
-    @NotNull
-    private Date endDate;
+  @NotNull private Long teacherId;
+  @NotNull private Date endDate;
 
-    private Date startDate;
-
+  private Date startDate;
 }

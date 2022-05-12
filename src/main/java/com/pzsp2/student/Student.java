@@ -13,10 +13,10 @@ import java.util.Collection;
 @Setter
 @Table(name = "STUDENTS", schema = "PZSP04")
 public class Student extends User {
-    private Collection<Solution> solutions;
+  private Collection<Solution> solutions;
 
-    @OneToMany(mappedBy = "student")
-    public Collection<Solution> getSolutions() {
-        return solutions;
-    }
+  @OneToMany(mappedBy = "student")
+  public Collection<Solution> getSolutions() {
+    return solutions;
+  }
 }

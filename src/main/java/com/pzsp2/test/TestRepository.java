@@ -7,9 +7,8 @@ import java.util.List;
 
 @Repository
 public interface TestRepository extends JpaRepository<Test, Long> {
-    @Override
-    List<Test> findAll();
+  @Override
+  List<Test> findAll();
 
-    Test getTestByTestId(Long id);
-
+  Test getTestByTestId(Long id);
 }

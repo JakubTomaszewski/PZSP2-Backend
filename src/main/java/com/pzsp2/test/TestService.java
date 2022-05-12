@@ -18,60 +18,59 @@ import java.util.List;
 @Service
 @Transactional
 public class TestService {
-    private final TestRepository testRepository;
-    private final QuestionRepository questionRepository;
-    private final TestQuestionRepository testQuestionRepository;
-    private final TeacherRepository teacherRepository;
+  private final TestRepository testRepository;
+  private final QuestionRepository questionRepository;
+  private final TestQuestionRepository testQuestionRepository;
+  private final TeacherRepository teacherRepository;
 
-    public List<Test> getAllTests() { return testRepository.findAll();}
+  public List<Test> getAllTests() {
+    return testRepository.findAll();
+  }
 
-    public Test getTestById(Long id) { return testRepository.getTestByTestId(id); }
+  public Test getTestById(Long id) {
+    return testRepository.getTestByTestId(id);
+  }
 
-    public Test addTest(AddTestRequest request) {
-        //validate questions!
-        int numberOfIds = questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId());
-        if(numberOfIds != request.getQuestionsId().size())
-        {
-            throw new ApiRequestException("Not valid questions' ids");
-        }
-
-        //create date
-        java.sql.Date startDate;
-        if (request.getStartDate() == null) {
-            java.util.Date tmp = new java.util.Date();
-            startDate = new java.sql.Date(tmp.getTime());
-        } else {
-            startDate = request.getStartDate();
-        }
-
-        //getTeacher, temporarily set to 1 user waiting for logging to resolve that issue
-        Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
-
-        //create test
-        Test test = new Test(startDate, request.getEndDate(), teacher);
-
-        //save test
-        test = testRepository.save(test);
-        //make link
-        String link = "/api/tests/solve/" + test.getTestId();
-        test.setLink(link);
-        //create test questions and add them to test
-        List<Question> questions = questionRepository.findByQuestionIdIn(request.getQuestionsId());
-        List<TestQuestion> testQuestions = new ArrayList<>();
-        for(int i = 0; i < questions.size(); i++) {
-            TestQuestion testQuestion = new TestQuestion(
-                    questions.get(i).getQuestionId(),
-                    i+1,
-                    test.getTestId(),
-                    questions.get(i),
-                    test);
-            testQuestionRepository.save(testQuestion);
-            testQuestions.add(testQuestion);
-        }
-        if(test != null) { test.setTestQuestions(testQuestions); }
-        return test;
-
+  public Test addTest(AddTestRequest request) {
+    // validate questions!
+    int numberOfIds = questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId());
+    if (numberOfIds != request.getQuestionsId().size()) {
+      throw new ApiRequestException("Not valid questions' ids");
     }
 
+    // create date
+    java.sql.Date startDate;
+    if (request.getStartDate() == null) {
+      java.util.Date tmp = new java.util.Date();
+      startDate = new java.sql.Date(tmp.getTime());
+    } else {
+      startDate = request.getStartDate();
+    }
 
+    // getTeacher, temporarily set to 1 user waiting for logging to resolve that issue
+    Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
+
+    // create test
+    Test test = new Test(startDate, request.getEndDate(), teacher);
+
+    // save test
+    test = testRepository.save(test);
+    // make link
+    String link = "/api/tests/solve/" + test.getTestId();
+    test.setLink(link);
+    // create test questions and add them to test
+    List<Question> questions = questionRepository.findByQuestionIdIn(request.getQuestionsId());
+    List<TestQuestion> testQuestions = new ArrayList<>();
+    for (int i = 0; i < questions.size(); i++) {
+      TestQuestion testQuestion =
+          new TestQuestion(
+              questions.get(i).getQuestionId(), i + 1, test.getTestId(), questions.get(i), test);
+      testQuestionRepository.save(testQuestion);
+      testQuestions.add(testQuestion);
+    }
+    if (test != null) {
+      test.setTestQuestions(testQuestions);
+    }
+    return test;
+  }
 }

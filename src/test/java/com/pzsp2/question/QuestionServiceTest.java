@@ -16,10 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
 class QuestionServiceTest {
@@ -135,7 +134,7 @@ class QuestionServiceTest {
     }
 
     @Test
-    void canModifyQuestiontoClosedOne() {
+    void canModifyQuestionToClosedOne() {
         //given
         ModifyQuestionRequest request = new ModifyQuestionRequest();
         request.setQuestionId(12L);
@@ -146,9 +145,11 @@ class QuestionServiceTest {
         request.setAnswers(Arrays.asList("1", "2", "3", "4"));
         request.setAreCorrect(Arrays.asList(true, false, false, false));
         Question question = new Question();
-        Answer answer = new Answer();
-        answer.setContent("start");
-        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        Answer answer1 = new Answer();
+        Answer answer2 = new Answer();
+        answer1.setContent("answer 1");
+        answer2.setContent("answer 2");
+        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer1, answer2));
         question.setAnswers(answers);
         given(questionRepository.findById(request.getQuestionId()))
                 .willReturn(Optional.of(question));
@@ -185,9 +186,11 @@ class QuestionServiceTest {
         request.setContent("testContent");
         request.setTeacherId(2L);
         Question question = new Question();
-        Answer answer = new Answer();
-        answer.setContent("start");
-        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer));
+        Answer answer1 = new Answer();
+        Answer answer2 = new Answer();
+        answer1.setContent("answer 1");
+        answer2.setContent("answer 2");
+        Collection<Answer> answers = new ArrayList<>(Arrays.asList(answer1, answer2));
         question.setAnswers(answers);
         given(questionRepository.findById(request.getQuestionId()))
                 .willReturn(Optional.of(question));

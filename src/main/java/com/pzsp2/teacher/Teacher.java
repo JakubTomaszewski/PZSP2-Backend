@@ -21,55 +21,55 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "TEACHERS", schema = "PZSP04")
-public class Teacher extends User{
-    private String login;
-    private String password;
-    private Collection<CoursesTeachers> coursesTeachers;
-    private Collection<Question> questions;
-    private Collection<Test> tests;
+public class Teacher extends User {
+  private String login;
+  private String password;
+  private Collection<CoursesTeachers> coursesTeachers;
+  private Collection<Question> questions;
+  private Collection<Test> tests;
 
-    @Basic
-    @Column(name = "TEACH_LOGIN")
-    public String getLogin() {
-        return login;
-    }
+  @Basic
+  @Column(name = "TEACH_LOGIN")
+  public String getLogin() {
+    return login;
+  }
 
-    @Basic
-    @JsonIgnore
-    @Column(name = "TEACH_PASSWORD")
-    public String getPassword() {
-        return password;
-    }
+  @Basic
+  @JsonIgnore
+  @Column(name = "TEACH_PASSWORD")
+  public String getPassword() {
+    return password;
+  }
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "teacher")
-    public Collection<CoursesTeachers> getCoursesTeachers() {
-        return coursesTeachers;
-    }
+  @JsonManagedReference
+  @OneToMany(mappedBy = "teacher")
+  public Collection<CoursesTeachers> getCoursesTeachers() {
+    return coursesTeachers;
+  }
 
-    @JsonIgnore
-    @JsonManagedReference
-    @OneToMany(mappedBy = "teachers", fetch = FetchType.LAZY)
-    public Collection<Question> getQuestions() {
-        return questions;
-    }
+  @JsonIgnore
+  @JsonManagedReference
+  @OneToMany(mappedBy = "teachers", fetch = FetchType.LAZY)
+  public Collection<Question> getQuestions() {
+    return questions;
+  }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "teacher")
-    public Collection<Test> getTests() {
-        return tests;
-    }
+  @JsonBackReference
+  @OneToMany(mappedBy = "teacher")
+  public Collection<Test> getTests() {
+    return tests;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Teacher teacher = (Teacher) o;
-        return getUserUserId() != null && Objects.equals(getUserUserId(), teacher.getUserUserId());
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Teacher teacher = (Teacher) o;
+    return getUserUserId() != null && Objects.equals(getUserUserId(), teacher.getUserUserId());
+  }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 }

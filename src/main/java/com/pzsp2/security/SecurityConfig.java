@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					+ "from Users1 "
 					+ "where username = ?")
 				.authoritiesByUsernameQuery("select username,authority "
-					+ "from Users1 " 
+					+ "from Users1 "
 					+ "where username = ?");
 
 		// Authentication With Local Memory Data

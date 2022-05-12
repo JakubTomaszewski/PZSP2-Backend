@@ -1,15 +1,14 @@
 package com.pzsp2.question;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.solution.Solution;
-import com.pzsp2.teacher.Teacher;
-import com.pzsp2.testquestion.TestQuestion;
 import com.pzsp2.answer.Answer;
 import com.pzsp2.course.Course;
 import com.pzsp2.multimedia.Multimedia;
+import com.pzsp2.solution.Solution;
+import com.pzsp2.teacher.Teacher;
+import com.pzsp2.testquestion.TestQuestion;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,100 +24,103 @@ import java.util.Objects;
 @Setter
 @Table(name = "QUESTIONS", schema = "PZSP04")
 public class Question {
-    public static String openQuestion = "O";
-    public static String closedQuestion = "C";
-    private Long questionId;
-    private String type;
-    private String content;
-    private Date dateAdded;
-    private Date dateLastUsed;
-    private Collection<Answer> answers;
-    private Collection<Multimedia> multimedia;
-    private Course course;
-    private Teacher teachers;
-    private Collection<Solution> solutions;
-    private Collection<TestQuestion> testQuestions;
+  public static String openQuestion = "O";
+  public static String closedQuestion = "C";
+  private Long questionId;
+  private String type;
+  private String content;
+  private Date dateAdded;
+  private Date dateLastUsed;
+  private Collection<Answer> answers;
+  private Collection<Multimedia> multimedia;
+  private Course course;
+  private Teacher teachers;
+  private Collection<Solution> solutions;
+  private Collection<TestQuestion> testQuestions;
 
-    @Id
-    @Column(name = "QUESTION_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    public Long getQuestionId() {
-        return questionId;
-    }
+  @Id
+  @Column(name = "QUESTION_ID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  public Long getQuestionId() {
+    return questionId;
+  }
 
-    @Basic
-    @Column(name = "TYPE" )
-    public String getType() {
-        return type;
-    }
+  @Basic
+  @Column(name = "TYPE")
+  public String getType() {
+    return type;
+  }
 
-    @Basic
-    @Column(name = "CONTENT")
-    public String getContent() {
-        return content;
-    }
+  @Basic
+  @Column(name = "CONTENT")
+  public String getContent() {
+    return content;
+  }
 
-    @Basic
-    @Column(name = "DATE_ADDED")
-    public Date getDateAdded() {
-        return dateAdded;
-    }
+  @Basic
+  @Column(name = "DATE_ADDED")
+  public Date getDateAdded() {
+    return dateAdded;
+  }
 
-    @Basic
-    @Column(name = "DATE_LAST_USED")
-    public Date getDateLastUsed() {
-        return dateLastUsed;
-    }
+  @Basic
+  @Column(name = "DATE_LAST_USED")
+  public Date getDateLastUsed() {
+    return dateLastUsed;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-        return Objects.equals(questionId, question.questionId) && Objects.equals(type, question.type) && Objects.equals(content, question.content) && Objects.equals(dateAdded, question.dateAdded) && Objects.equals(dateLastUsed, question.dateLastUsed);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Question question = (Question) o;
+    return Objects.equals(questionId, question.questionId)
+        && Objects.equals(type, question.type)
+        && Objects.equals(content, question.content)
+        && Objects.equals(dateAdded, question.dateAdded)
+        && Objects.equals(dateLastUsed, question.dateLastUsed);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
+  }
 
-    @JsonManagedReference
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "question")
-    public Collection<Answer> getAnswers() {
-        return answers;
-    }
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "question")
+  public Collection<Answer> getAnswers() {
+    return answers;
+  }
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    public Collection<Multimedia> getMultimedia() {
-        return multimedia;
-    }
+  @JsonManagedReference
+  @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
+  public Collection<Multimedia> getMultimedia() {
+    return multimedia;
+  }
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
-    public Course getCourse() {
-        return course;
-    }
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
+  public Course getCourse() {
+    return course;
+  }
 
-    @ManyToOne()
-    @JsonBackReference
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
-    public Teacher getTeachers() {
-        return teachers;
-    }
+  @ManyToOne()
+  @JsonBackReference
+  @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+  public Teacher getTeachers() {
+    return teachers;
+  }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "questions")
-    public Collection<Solution> getSolutions() {
-        return solutions;
-    }
+  @JsonIgnore
+  @OneToMany(mappedBy = "questions")
+  public Collection<Solution> getSolutions() {
+    return solutions;
+  }
 
-    @JsonBackReference
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "question")
-    public Collection<TestQuestion> getTestQuestions() {
-        return testQuestions;
-    }
-
+  @JsonBackReference
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "question")
+  public Collection<TestQuestion> getTestQuestions() {
+    return testQuestions;
+  }
 }
