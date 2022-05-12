@@ -42,7 +42,6 @@ class TestServiceTest {
         underTest = new TestService(testRepository, questionRepository, testQuestionRepository, teacherRepository);
     }
 
-
     @Test
     void canGetAllTests() {
         //given
@@ -50,6 +49,16 @@ class TestServiceTest {
         underTest.getAllTests();
         //then
         verify(testRepository).findAll();
+    }
+
+    @Test
+    void canGetTestById() {
+        //given
+        Long testId = 12425L;
+        //when
+        underTest.getTestById(testId);
+        //then
+        verify(testRepository).getTestByTestId(testId);
     }
 
     @Test
