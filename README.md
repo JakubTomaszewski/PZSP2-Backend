@@ -14,7 +14,6 @@ Project is created with:
 * Maven version: 3.6.3
 * Junit: 1.8.2
 * AssertJ
-* 
 	
 ## Setup
 To run this project, use these commands using mvn on root folder:
