@@ -18,6 +18,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Table(name = "TESTS", schema = "PZSP04")
 public class Test {
+  static final String solveLink = "/api/tests/solve/";
   private Long testId;
   private Date startDate;
   private Date endDate;

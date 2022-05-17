@@ -47,6 +47,14 @@ public class QuestionService {
     return questionRepository.getQuestionsByTypeEqualsIgnoreCase(type);
   }
 
+  /**
+   * Create question based on request parameter and save it to the database. If its closed type of
+   * question, then create answers based on request and save them to the database. Returned saved
+   * question.
+   *
+   * @param request which provides information about question and answers to that question
+   * @return saved question
+   */
   public Question addQuestion(QuestionRequest request) {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -73,6 +81,12 @@ public class QuestionService {
     return saved;
   }
 
+  /**
+   * Delete question from database based on provided id. Throws User defined ApiRequestException if question with
+   * provided id doesn't exist.
+   * @param id id of the question
+   * @return deleted question
+   */
   public Question deleteQuestionById(Long id) {
     Optional<Question> question = questionRepository.findById(id);
     if (question.isPresent()) {
@@ -81,6 +95,13 @@ public class QuestionService {
     } else throw new ApiRequestException("Question with id: " + id + " doesn't exist");
   }
 
+  /**
+   * Modify question based on request parameter. Throws User defined ApiRequestException if question
+   * with id provided via request doesn't exist. If we change question type from closed to open one then we delete all
+   * question from database which point to that question
+   * @param request which provides information about question's fields we want to change
+   * @return modified question
+   */
   public Question modifyQuestion(ModifyQuestionRequest request) {
     Optional<Question> question = questionRepository.findById(request.getQuestionId());
     if (question.isPresent()) {

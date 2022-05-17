@@ -31,6 +31,12 @@ public class TestService {
     return testRepository.getTestByTestId(id);
   }
 
+  /**
+   * Create test based on request parameter, then create test questions based on created test and
+   * provided questions via request and save them and the test to the database.
+   * @param request
+   * @return saved test
+   */
   public Test addTest(AddTestRequest request) {
     // validate questions!
     int numberOfIds = questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId());
@@ -47,7 +53,6 @@ public class TestService {
       startDate = request.getStartDate();
     }
 
-    // getTeacher, temporarily set to 1 user waiting for logging to resolve that issue
     Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
 
     // create test
@@ -56,7 +61,7 @@ public class TestService {
     // save test
     test = testRepository.save(test);
     // make link
-    String link = "/api/tests/solve/" + test.getTestId();
+    String link = Test.solveLink + test.getTestId();
     test.setLink(link);
     // create test questions and add them to test
     List<Question> questions = questionRepository.findByQuestionIdIn(request.getQuestionsId());
