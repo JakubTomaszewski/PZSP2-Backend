@@ -12,8 +12,8 @@ This repository represents backbone of the project - backend which acts as a lay
 Project is created with:
 * Spring Boot version: 2.6.6
 * Maven version: 3.6.3
-* Junit: 999
-* AssertJ:
+* Junit: 1.8.2
+* AssertJ
 * 
 	
 ## Setup
