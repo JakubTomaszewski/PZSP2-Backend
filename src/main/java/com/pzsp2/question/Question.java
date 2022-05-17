@@ -1,11 +1,17 @@
 package com.pzsp2.question;
 
-import com.pzsp2.solution.Solution;
-import com.pzsp2.teacher.Teacher;
-import com.pzsp2.testquestion.TestQuestion;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.answer.Answer;
 import com.pzsp2.course.Course;
 import com.pzsp2.multimedia.Multimedia;
+import com.pzsp2.solution.Solution;
+import com.pzsp2.teacher.Teacher;
+import com.pzsp2.testquestion.TestQuestion;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,136 +19,108 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 @Table(name = "QUESTIONS", schema = "PZSP04")
 public class Question {
-    private Long questionId;
-    private String type;
-    private String content;
-    private Date dateAdded;
-    private Date dateLastUsed;
-    private Collection<Answer> answers;
-    private Collection<Multimedia> multimedia;
-    private Course course;
-    private Teacher teachers;
-    private Collection<Solution> solutions;
-    private Collection<TestQuestion> testQuestions;
+  public static String openQuestion = "O";
+  public static String closedQuestion = "C";
+  private Long questionId;
+  private String type;
+  private String content;
+  private Date dateAdded;
+  private Date dateLastUsed;
+  private Collection<Answer> answers;
+  private Collection<Multimedia> multimedia;
+  private Course course;
+  private Teacher teachers;
+  private Collection<Solution> solutions;
+  private Collection<TestQuestion> testQuestions;
 
-    @Id
-    @Column(name = "QUESTION_ID")
-    public Long getQuestionId() {
-        return questionId;
-    }
+  @Id
+  @Column(name = "QUESTION_ID")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  public Long getQuestionId() {
+    return questionId;
+  }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
+  @Basic
+  @Column(name = "TYPE")
+  public String getType() {
+    return type;
+  }
 
-    @Basic
-    @Column(name = "TYPE")
-    public String getType() {
-        return type;
-    }
+  @Basic
+  @Column(name = "CONTENT")
+  public String getContent() {
+    return content;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  @Basic
+  @Column(name = "DATE_ADDED")
+  public Date getDateAdded() {
+    return dateAdded;
+  }
 
-    @Basic
-    @Column(name = "CONTENT")
-    public String getContent() {
-        return content;
-    }
+  @Basic
+  @Column(name = "DATE_LAST_USED")
+  public Date getDateLastUsed() {
+    return dateLastUsed;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Question question = (Question) o;
+    return Objects.equals(questionId, question.questionId)
+        && Objects.equals(type, question.type)
+        && Objects.equals(content, question.content)
+        && Objects.equals(dateAdded, question.dateAdded)
+        && Objects.equals(dateLastUsed, question.dateLastUsed);
+  }
 
-    @Basic
-    @Column(name = "DATE_ADDED")
-    public Date getDateAdded() {
-        return dateAdded;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
+  }
 
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "question")
+  public Collection<Answer> getAnswers() {
+    return answers;
+  }
 
-    @Basic
-    @Column(name = "DATE_LAST_USED")
-    public Date getDateLastUsed() {
-        return dateLastUsed;
-    }
+  @JsonManagedReference
+  @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
+  public Collection<Multimedia> getMultimedia() {
+    return multimedia;
+  }
 
-    public void setDateLastUsed(Date dateLastUsed) {
-        this.dateLastUsed = dateLastUsed;
-    }
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
+  public Course getCourse() {
+    return course;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-        return Objects.equals(questionId, question.questionId) && Objects.equals(type, question.type) && Objects.equals(content, question.content) && Objects.equals(dateAdded, question.dateAdded) && Objects.equals(dateLastUsed, question.dateLastUsed);
-    }
+  @ManyToOne()
+  @JsonBackReference
+  @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+  public Teacher getTeachers() {
+    return teachers;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(questionId, type, content, dateAdded, dateLastUsed);
-    }
+  @JsonIgnore
+  @OneToMany(mappedBy = "questions")
+  public Collection<Solution> getSolutions() {
+    return solutions;
+  }
 
-    @OneToMany(mappedBy = "question")
-    public Collection<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(Collection<Answer> answers) {
-        this.answers = answers;
-    }
-
-    @OneToMany(mappedBy = "question")
-    public Collection<Multimedia> getMultimedia() {
-        return multimedia;
-    }
-
-    public void setMultimedia(Collection<Multimedia> multimedia) {
-        this.multimedia = multimedia;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
-    public Teacher getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(Teacher teachers) {
-        this.teachers = teachers;
-    }
-
-    @OneToMany(mappedBy = "questions")
-    public Collection<Solution> getSolutions() {
-        return solutions;
-    }
-
-    public void setSolutions(Collection<Solution> solutions) {
-        this.solutions = solutions;
-    }
-
-    @OneToMany(mappedBy = "question")
-    public Collection<TestQuestion> getTestQuestions() {
-        return testQuestions;
-    }
-
-    public void setTestQuestions(Collection<TestQuestion> testQuestions) {
-        this.testQuestions = testQuestions;
-    }
+  @JsonBackReference
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "question")
+  public Collection<TestQuestion> getTestQuestions() {
+    return testQuestions;
+  }
 }

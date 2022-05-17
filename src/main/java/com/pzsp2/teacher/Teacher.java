@@ -1,11 +1,16 @@
 package com.pzsp2.teacher;
 
-import com.pzsp2.test.Test;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
+import com.pzsp2.test.Test;
 import com.pzsp2.user.User;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,72 +18,58 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Entity
 @Table(name = "TEACHERS", schema = "PZSP04")
-public class Teacher extends User{
-    private String login;
-    private String password;
-    private Collection<CoursesTeachers> coursesTeachers;
-    private Collection<Question> questions;
-    private Collection<Test> tests;
+public class Teacher extends User {
+  private String login;
+  private String password;
+  private Collection<CoursesTeachers> coursesTeachers;
+  private Collection<Question> questions;
+  private Collection<Test> tests;
 
-    @Basic
-    @Column(name = "TEACH_LOGIN")
-    public String getLogin() {
-        return login;
-    }
+  @Basic
+  @Column(name = "TEACH_LOGIN")
+  public String getLogin() {
+    return login;
+  }
 
-    public void setLogin(String teachLogin) {
-        this.login = teachLogin;
-    }
+  @Basic
+  @JsonIgnore
+  @Column(name = "TEACH_PASSWORD")
+  public String getPassword() {
+    return password;
+  }
 
-    @Basic
-    @Column(name = "TEACH_PASSWORD")
-    public String getPassword() {
-        return password;
-    }
+  @JsonManagedReference
+  @OneToMany(mappedBy = "teacher")
+  public Collection<CoursesTeachers> getCoursesTeachers() {
+    return coursesTeachers;
+  }
 
-    public void setPassword(String teachPassword) {
-        this.password = teachPassword;
-    }
+  @JsonIgnore
+  @JsonManagedReference
+  @OneToMany(mappedBy = "teachers", fetch = FetchType.LAZY)
+  public Collection<Question> getQuestions() {
+    return questions;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teacher teacher = (Teacher) o;
-        return Objects.equals(login, teacher.login) && Objects.equals(password, teacher.password);
-    }
+  @JsonBackReference
+  @OneToMany(mappedBy = "teacher")
+  public Collection<Test> getTests() {
+    return tests;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(login, password);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    Teacher teacher = (Teacher) o;
+    return getUserUserId() != null && Objects.equals(getUserUserId(), teacher.getUserUserId());
+  }
 
-    @OneToMany(mappedBy = "teacher")
-    public Collection<CoursesTeachers> getCoursesTeachers() {
-        return coursesTeachers;
-    }
-
-    public void setCoursesTeachers(Collection<CoursesTeachers> coursesTeachers) {
-        this.coursesTeachers = coursesTeachers;
-    }
-
-    @OneToMany(mappedBy = "teachers")
-    public Collection<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Collection<Question> questions) {
-        this.questions = questions;
-    }
-
-    @OneToMany(mappedBy = "teacher")
-    public Collection<Test> getTests() {
-        return tests;
-    }
-
-    public void setTests(Collection<Test> tests) {
-        this.tests = tests;
-    }
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 }
