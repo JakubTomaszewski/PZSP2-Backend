@@ -1,23 +1,17 @@
 package com.pzsp2.security;
 
+import com.pzsp2.teacher.Teacher;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeResource {
 
-  @GetMapping("/")
+  @GetMapping("/home")
   public String home() {
-    return ("<h1>Welcome Page For All</h1>");
-  }
-
-  @GetMapping("/user")
-  public String user() {
-    return ("<h1>Welcome User</h1>");
-  }
-
-  @GetMapping("/admin")
-  public String admin() {
-    return ("<h1>Welcome Admin</h1>");
+    return ("<h1> Willkommensseite für nicht eingeloggte </h1>");
   }
 }
