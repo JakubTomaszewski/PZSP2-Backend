@@ -10,21 +10,22 @@ import java.util.List;
 @Setter
 public class ModifyQuestionRequest extends QuestionRequest {
 
-  @NotNull private Long questionId;
+    @NotNull
+    private Long questionId;
 
-  public ModifyQuestionRequest() {
-    super();
-  }
+    public ModifyQuestionRequest() {
+        super();
+    }
 
-  public ModifyQuestionRequest(
-      String courseCode,
-      String type,
-      String content,
-      Long teacherId,
-      List<String> answers,
-      List<Boolean> areCorrect,
-      Long questionId) {
-    super(courseCode, type, content, teacherId, answers, areCorrect);
-    this.questionId = questionId;
-  }
+    public ModifyQuestionRequest(
+            String courseCode,
+            String type,
+            String content,
+            Long teacherId,
+            List<String> answers,
+            List<Boolean> areCorrect,
+            Long questionId) {
+        super(courseCode, type, content, teacherId, answers, areCorrect);
+        this.questionId = questionId;
+    }
 }

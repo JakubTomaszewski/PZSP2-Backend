@@ -11,15 +11,15 @@ import java.util.List;
 @RequestMapping(path = "/users")
 public class UserController {
 
-  private final UserService userService;
+    private final UserService userService;
 
-  @Autowired
-  public UserController(UserService userService) {
-    this.userService = userService;
-  }
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-  @GetMapping("/all")
-  List<User> getAllUsers() {
-    return userService.getAllUsers();
-  }
+    @GetMapping("/all")
+    List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
