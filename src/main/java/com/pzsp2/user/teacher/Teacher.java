@@ -24,6 +24,8 @@ import java.util.Objects;
 public class Teacher extends User {
     private String login;
     private String password;
+    private Boolean enabled;
+    private String authority;
     private Collection<CoursesTeachers> coursesTeachers;
     private Collection<Question> questions;
     private Collection<Test> tests;
@@ -39,6 +41,18 @@ public class Teacher extends User {
     @Column(name = "TEACH_PASSWORD")
     public String getPassword() {
         return password;
+    }
+
+    @Basic
+    @Column(name = "ENABLED")
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    @Basic
+    @Column(name = "AUTHORITY")
+    public String getAuthority() {
+        return authority;
     }
 
     @JsonManagedReference
