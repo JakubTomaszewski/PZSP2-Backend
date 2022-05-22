@@ -19,6 +19,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class TestService {
+    private static final Integer PASSWORD_LENGTH = 8;
     private final TestRepository testRepository;
     private final QuestionRepository questionRepository;
     private final TestQuestionRepository testQuestionRepository;
@@ -37,12 +38,12 @@ public class TestService {
             throw new ApiRequestException("Test doesn't exist");
     }
 
-    public Test getTestByLink(String link) {
-        Optional<Test> testOptional = testRepository.findByLink(link);
+    public Test getTestByPassword(String password) {
+        Optional<Test> testOptional = testRepository.findByPassword(password);
         if (testOptional.isPresent())
             return testOptional.get();
         else
-            throw new ApiRequestException("Invalid link");
+            throw new ApiRequestException("Invalid password");
     }
 
     /**
@@ -76,8 +77,19 @@ public class TestService {
         // save test
         test = testRepository.save(test);
         // make link
-        String link = Test.solveLink + test.getTestId();
-        test.setLink(link);
+        List<Test> tests = testRepository.findAll();
+        List<String> passwords = new ArrayList<>();
+        for (Test temp : tests) {
+            passwords.add(temp.getPassword());
+        }
+        boolean doesNewPasswordAlreadyExists = true;
+        while (doesNewPasswordAlreadyExists) {
+            String password = TestPasswordGenerator.generateRandomPassword(PASSWORD_LENGTH);
+            if (!passwords.contains(password)) {
+                doesNewPasswordAlreadyExists = false;
+                test.setPassword(password);
+            }
+        }
         // create test questions and add them to test
         List<Question> questions = questionRepository.findByQuestionIdIn(request.getQuestionsId());
         List<TestQuestion> testQuestions = new ArrayList<>();

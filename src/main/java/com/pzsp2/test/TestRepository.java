@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @Repository
 public interface TestRepository extends JpaRepository<Test, Long> {
-    @Override
-    List<Test> findAll();
 
     @Override
     Optional<Test> findById(Long id);
 
-    Optional<Test> findByLink(String link);
+    Optional<Test> findByPassword(String link);
+
+    List<Password> findAllBy();
 }

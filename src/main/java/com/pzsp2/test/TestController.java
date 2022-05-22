@@ -25,9 +25,9 @@ public class TestController {
         return testService.getTestById(id);
     }
 
-    @GetMapping(path = "solve")
-    public Test displayTestByLink(@RequestParam(value = "link") String link) {
-        return testService.getTestByLink(link);
+    @GetMapping(path = "/solve")
+    public Test displayTestByPassword(@RequestParam(value = "password") String password) {
+        return testService.getTestByPassword(password);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

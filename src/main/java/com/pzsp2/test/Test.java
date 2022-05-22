@@ -14,6 +14,10 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
+interface Password {
+    String getPassword();
+}
+
 @Entity
 @Setter
 @NoArgsConstructor
@@ -23,7 +27,7 @@ public class Test {
     private Long testId;
     private Timestamp startDate;
     private Timestamp endDate;
-    private String link;
+    private String password;
     private Collection<Solution> solutions;
     private Teacher teacher;
     private Collection<TestQuestion> testQuestions;
@@ -55,8 +59,8 @@ public class Test {
 
     @Basic
     @Column(name = "LINK")
-    public String getLink() {
-        return link;
+    public String getPassword() {
+        return password;
     }
 
     @JsonIgnore
