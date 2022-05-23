@@ -7,18 +7,20 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-  @Override
-  List<Question> findAll();
+    @Override
+    List<Question> findAll();
 
-  List<Question> getQuestionsByCourseCourseCode(String code);
+    List<Question> getQuestionsByCourseCourseCode(String code);
 
-  List<Question> getQuestionsByCourseName(String name);
+    List<Question> getQuestionsByCourseName(String name);
 
-  List<Question> getQuestionsByTypeEqualsIgnoreCase(String type);
+    List<Question> getQuestionsByTypeEqualsIgnoreCase(String type);
 
-  List<Question> findByQuestionIdIn(List<Long> ids);
+    List<Question> getQuestionsByQuestionIdIsInAndType(List<Long> ids, String type);
 
-  List<Question> getQuestionsByTeachersLogin(String login);
+    List<Question> findByQuestionIdIn(List<Long> ids);
 
-  int countQuestionsByQuestionIdIn(List<Long> ids);
+    List<Question> getQuestionsByTeachersLogin(String login);
+
+    int countQuestionsByQuestionIdIn(List<Long> ids);
 }

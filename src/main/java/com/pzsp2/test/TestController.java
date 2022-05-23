@@ -12,20 +12,26 @@ import java.util.List;
 @RequestMapping(path = "api/tests")
 @AllArgsConstructor
 public class TestController {
-  @Autowired final TestService testService;
+    @Autowired
+    final TestService testService;
 
-  @GetMapping(path = "/all")
-  public List<Test> displayAllTests() {
-    return testService.getAllTests();
-  }
+    @GetMapping(path = "/all")
+    public List<Test> displayAllTests() {
+        return testService.getAllTests();
+    }
 
-  @GetMapping()
-  public Test displayTestById(@RequestParam(value = "id") Long id) {
-    return testService.getTestById(id);
-  }
+    @GetMapping()
+    public Test displayTestById(@RequestParam(value = "id") Long id) {
+        return testService.getTestById(id);
+    }
 
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Test saveTest(@RequestBody AddTestRequest request) {
-    return testService.addTest(request);
-  }
+    @GetMapping(path = "/solve")
+    public Test displayTestByPassword(@RequestParam(value = "password") String password) {
+        return testService.getTestByPassword(password);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Test saveTest(@RequestBody AddTestRequest request) {
+        return testService.addTest(request);
+    }
 }

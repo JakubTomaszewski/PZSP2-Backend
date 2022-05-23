@@ -12,15 +12,19 @@ import java.util.List;
 @EqualsAndHashCode
 public class QuestionRequest {
 
-  @NotNull private String courseCode;
+    @NotNull
+    private String courseCode;
 
-  @NotNull private String type;
+    @NotNull
+    private String type;
 
-  @NotNull private String content;
+    @NotNull
+    private String content;
 
-  @NotNull private Long teacherId;
+    @NotNull
+    private Long teacherId;
 
-  private List<String> answers;
+    private List<String> answers;
 
-  private List<Boolean> areCorrect;
+    private List<Boolean> areCorrect;
 }
