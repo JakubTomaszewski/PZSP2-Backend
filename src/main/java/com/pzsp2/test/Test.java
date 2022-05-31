@@ -28,6 +28,7 @@ public class Test {
     private Timestamp startDate;
     private Timestamp endDate;
     private String password;
+    private String name;
     private Collection<Solution> solutions;
     private Teacher teacher;
     private Collection<TestQuestion> testQuestions;
@@ -55,6 +56,12 @@ public class Test {
     @Column(name = "END_DATE")
     public Timestamp getEndDate() {
         return endDate;
+    }
+
+    @Basic
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
     }
 
     @Basic

@@ -73,6 +73,7 @@ public class TestService {
 
         // create test
         Test test = new Test(startDate, request.getEndDate(), teacher);
+        test.setName(request.getName());
 
         // save test
         test = testRepository.save(test);
