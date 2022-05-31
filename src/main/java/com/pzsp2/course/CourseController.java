@@ -1,10 +1,8 @@
 package com.pzsp2.course;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,11 @@ public class CourseController {
     @GetMapping(path = "/all")
     public List<String> displayAllCoursesCodes() {
         return courseService.getCoursesCodes();
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Course saveCourse(@RequestBody AddCourseRequest request) {
+        return courseService.addCourse(request);
     }
 
 }
