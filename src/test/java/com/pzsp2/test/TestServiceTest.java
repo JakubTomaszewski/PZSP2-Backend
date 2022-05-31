@@ -82,9 +82,10 @@ class TestServiceTest {
         // given
         List<Long> ids = new ArrayList<>();
         ids.add(337283L);
+        String name = "testName";
         Long teacherId = 1L;
         java.sql.Timestamp date = new Timestamp(1234);
-        AddTestRequest request = new AddTestRequest(ids, teacherId, date, null);
+        AddTestRequest request = new AddTestRequest(name, ids, teacherId, date, null);
         Teacher teacher = new Teacher();
         given(questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId()))
                 .willReturn(request.getQuestionsId().size());
@@ -106,10 +107,11 @@ class TestServiceTest {
     void shouldThrowBadRequestExceptionWhenDuplicatedOrInvalidQuestionIds() {
         // given
         List<Long> ids = new ArrayList<>();
+        String name = "testName";
         ids.add(337283L);
         Long teacherId = 1L;
         java.sql.Timestamp date = new Timestamp(1234);
-        AddTestRequest request = new AddTestRequest(ids, teacherId, date, null);
+        AddTestRequest request = new AddTestRequest(name, ids, teacherId, date, null);
         given(questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId())).willReturn(0);
         // when
         // then
