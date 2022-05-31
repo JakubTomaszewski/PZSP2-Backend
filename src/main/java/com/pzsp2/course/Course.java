@@ -53,8 +53,8 @@ public class Course {
         return coursesTeachers;
     }
 
-    @OneToMany(mappedBy = "course")
     @JsonManagedReference
+    @OneToMany(mappedBy = "course")
     public Collection<Question> getQuestions() {
         return questions;
     }
