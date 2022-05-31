@@ -16,7 +16,8 @@ public class SolutionController {
     final SolutionService solutionService;
 
     @GetMapping(path = "/test")
-    public ResponseEntity<List<StudentTestSolutionPOJO>> displayTestSolutions(@RequestParam(value = "id") Long id) {
+    public ResponseEntity<StudentTestSolutionWithTestNamePOJO> displayTestSolutions(
+            @RequestParam(value = "id") Long id) {
         return solutionService.getAllSolutionsByTestId(id);
     }
 

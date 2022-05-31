@@ -82,7 +82,8 @@ public class SolutionService {
         }
     }
 
-    public ResponseEntity<List<StudentTestSolutionPOJO>> getAllSolutionsByTestId(Long id) {
+    public ResponseEntity<StudentTestSolutionWithTestNamePOJO> getAllSolutionsByTestId(Long id) {
+        String testName = testService.getTestById(id).getName();
         List<Solution> testSolutions = solutionRepository.getAllByTestId(id);
         Map<Student, List<Solution>> studentsTestSolutions = new HashMap<>();
         for (Solution solution : testSolutions) {
@@ -100,7 +101,8 @@ public class SolutionService {
         for (Student student : studentsTestSolutions.keySet()) {
             response.add(createPOJOFromSolutions(student, studentsTestSolutions.get(student)));
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        StudentTestSolutionWithTestNamePOJO finalResponse = new StudentTestSolutionWithTestNamePOJO(testName, response);
+        return new ResponseEntity<>(finalResponse, HttpStatus.OK);
 
     }
 
