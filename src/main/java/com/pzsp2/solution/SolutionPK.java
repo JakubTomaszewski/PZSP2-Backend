@@ -1,17 +1,20 @@
 package com.pzsp2.solution;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class SolutionPK implements Serializable {
     private Long questionId;
     private Long testId;
     private Long userId;
 
-    @Column(name = "QUESTION_ID")
-    @Id
     public Long getQuestionId() {
         return questionId;
     }
@@ -20,8 +23,6 @@ public class SolutionPK implements Serializable {
         this.questionId = questionId;
     }
 
-    @Column(name = "TEST_ID")
-    @Id
     public Long getTestId() {
         return testId;
     }
@@ -30,8 +31,6 @@ public class SolutionPK implements Serializable {
         this.testId = testId;
     }
 
-    @Column(name = "USER_ID")
-    @Id
     public Long getUserId() {
         return userId;
     }

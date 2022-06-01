@@ -9,6 +9,7 @@ import java.util.Collection;
 @Getter
 @AllArgsConstructor
 public class SolutionPOJO {
+    private SolutionPK solutionId;
     private String questionContent;
     private Collection<Answer> questionAnswers;
     private String studentAnswerContent;

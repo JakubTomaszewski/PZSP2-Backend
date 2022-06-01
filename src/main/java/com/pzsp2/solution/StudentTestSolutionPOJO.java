@@ -15,7 +15,8 @@ public class StudentTestSolutionPOJO {
     private String studentName;
     private String studentSurname;
     private String studentId;
+    private Integer closedQuestionsPoints;
+    private Integer openQuestionsPoints;
+    private Integer maxClosedQuestionsPoints;
     private List<SolutionPOJO> studentSolutions;
-    private Integer studentPoints;
-    private Integer maxPoints;
 }

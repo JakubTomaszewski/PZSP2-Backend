@@ -7,7 +7,6 @@ import com.pzsp2.question.Question;
 import com.pzsp2.test.Test;
 import com.pzsp2.user.student.Student;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -16,30 +15,23 @@ import java.util.Objects;
 @Entity
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "SOLUTIONS", schema = "PZSP04")
-@IdClass(SolutionPK.class)
 public class Solution {
-    private Long questionId;
-    private Long testId;
+    private SolutionPK id;
     private String content;
-    private Long userId;
-    // REPAIR questions to question !!
+    private Integer points;
     private Question question;
     private Test test;
     private Answer answer;
     private Student student;
 
-    @Id
-    @Column(name = "QUESTION_ID")
-    public Long getQuestionId() {
-        return questionId;
+    public Solution() {
+        points = 0;
     }
 
-    @Id
-    @Column(name = "TEST_ID")
-    public Long getTestId() {
-        return testId;
+    @EmbeddedId
+    public SolutionPK getId() {
+        return id;
     }
 
     @Basic
@@ -48,10 +40,10 @@ public class Solution {
         return content;
     }
 
-    @Id
-    @Column(name = "USER_ID")
-    public Long getUserId() {
-        return userId;
+    @Basic
+    @Column(name = "POINTS")
+    public Integer getPoints() {
+        return points;
     }
 
     @Override
@@ -59,17 +51,16 @@ public class Solution {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Solution solution = (Solution) o;
-        return Objects.equals(questionId, solution.questionId)
-                && Objects.equals(testId, solution.testId)
-                && Objects.equals(content, solution.content)
-                && Objects.equals(userId, solution.userId);
+        return Objects.equals(id, solution.id)
+                && Objects.equals(content, solution.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(questionId, testId, content, userId);
+        return Objects.hash(id, content);
     }
 
+    @MapsId("questionId")
     @ManyToOne
     @JoinColumn(
             name = "QUESTION_ID",
@@ -82,6 +73,7 @@ public class Solution {
     }
 
     @JsonBackReference
+    @MapsId("testId")
     @ManyToOne
     @JoinColumn(
             name = "TEST_ID",
@@ -101,6 +93,7 @@ public class Solution {
     }
 
     @JsonManagedReference
+    @MapsId("userId")
     @ManyToOne
     @JoinColumn(
             name = "USER_ID",

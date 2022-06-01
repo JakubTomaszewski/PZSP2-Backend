@@ -29,27 +29,41 @@ public class SolutionService {
     private final QuestionService questionService;
     private final AnswerService answerService;
 
-    private SolutionsResult countStudentPointsFromClosedQuestions(List<Solution> solutions) {
-        Integer allPoints = 0;
-        Integer achievedPoints = 0;
+
+    public List<Solution> checkClosedQuestions(Long testId) {
+        List<Solution> solutions = new ArrayList<>(testService.getTestById(testId).getSolutions());
         for (Solution solution : solutions) {
             if (solution.getQuestion().getType().equals(Question.CLOSED_QUESTION)) {
-                allPoints++;
-                if (solution.getAnswer().getIsCorrect()) {
-                    achievedPoints++;
-                }
+                if (solution.getAnswer().getIsCorrect()) solution.setPoints(1);
             }
         }
-        return new SolutionsResult(achievedPoints, allPoints);
+        return solutions;
     }
 
+    public List<Solution> checkOpenQuestions(manualCheckRequest request) {
+        List<Solution> solutions = solutionRepository.getAllByIdTestId(request.getTestId());
+        Set<SolutionPK> keys = request.getGrades().keySet();
+        for (Solution solution : solutions) {
+            if (keys.contains(solution.getId())) {
+                solution.setPoints(request.getGrades().get(solution.getId()));
+            }
+        }
+        return solutions;
+    }
 
     private StudentTestSolutionPOJO createPOJOFromSolutions(Student student, List<Solution> solutions) {
-        SolutionsResult result = countStudentPointsFromClosedQuestions(solutions);
+        Integer pointsFromClosedQuestions = 0;
+        Integer allPointsFromClosedQuestions = 0;
+        Integer pointsFromOpenQuestions = 0;
         List<SolutionPOJO> solutionPOJOS = new ArrayList<>();
         for (Solution solution : solutions) {
+            if (solution.getQuestion().getType().equals(Question.CLOSED_QUESTION)) {
+                allPointsFromClosedQuestions++;
+                if (solution.getAnswer().getIsCorrect()) pointsFromClosedQuestions++;
+            } else pointsFromOpenQuestions += solution.getPoints();
             solutionPOJOS.add(
                     new SolutionPOJO(
+                            solution.getId(),
                             solution.getQuestion().getContent(),
                             solution.getQuestion().getAnswers(),
                             solution.getContent(),
@@ -59,9 +73,10 @@ public class SolutionService {
                 student.getUserFirstName(),
                 student.getUserLastName(),
                 student.getIdNumber(),
-                solutionPOJOS,
-                result.getAchievedPoints(),
-                result.getAllPoints());
+                pointsFromClosedQuestions,
+                pointsFromOpenQuestions,
+                allPointsFromClosedQuestions,
+                solutionPOJOS);
     }
 
     public ResponseEntity<StudentTestSolutionPOJO> getAllTestSolutionsMadeByStudent(GetStudentTestSolutionRequest request) {
@@ -75,7 +90,7 @@ public class SolutionService {
         } else {
             Student student = studentOptional.get();
             Long studentId = student.getUserUserId();
-            List<Solution> solutions = solutionRepository.getAllByTestIdAndUserId(request.getTestId(), studentId);
+            List<Solution> solutions = solutionRepository.getAllByIdTestIdAndIdUserId(request.getTestId(), studentId);
             return new ResponseEntity<>(
                     createPOJOFromSolutions(student, solutions),
                     HttpStatus.OK);
@@ -84,7 +99,7 @@ public class SolutionService {
 
     public ResponseEntity<StudentTestSolutionWithTestNamePOJO> getAllSolutionsByTestId(Long id) {
         String testName = testService.getTestById(id).getName();
-        List<Solution> testSolutions = solutionRepository.getAllByTestId(id);
+        List<Solution> testSolutions = solutionRepository.getAllByIdTestId(id);
         Map<Student, List<Solution>> studentsTestSolutions = new HashMap<>();
         for (Solution solution : testSolutions) {
             Student student = solution.getStudent();
@@ -128,9 +143,7 @@ public class SolutionService {
             for (Question question : openQuestions) {
                 String content = request.getOpenQuestionAnswers().get(question.getQuestionId());
                 Solution solution = new Solution();
-                solution.setQuestionId(question.getQuestionId());
-                solution.setTestId(test.getTestId());
-                solution.setUserId(student.getUserUserId());
+                solution.setId(new SolutionPK(question.getQuestionId(), test.getTestId(), student.getUserUserId()));
                 solution.setContent(content);
                 solution.setQuestion(question);
                 solution.setStudent(student);
@@ -142,9 +155,7 @@ public class SolutionService {
                 Long answerId = request.getCloseQuestionAnswers().get(question.getQuestionId());
                 Answer answer = answerService.getAnswerById(answerId);
                 Solution solution = new Solution();
-                solution.setQuestionId(question.getQuestionId());
-                solution.setTestId(test.getTestId());
-                solution.setUserId(student.getUserUserId());
+                solution.setId(new SolutionPK(question.getQuestionId(), test.getTestId(), student.getUserUserId()));
                 solution.setAnswer(answer);
                 solution.setQuestion(question);
                 solution.setStudent(student);
@@ -155,4 +166,5 @@ public class SolutionService {
             return solutions;
         }
     }
+
 }

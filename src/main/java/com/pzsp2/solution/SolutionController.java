@@ -21,6 +21,16 @@ public class SolutionController {
         return solutionService.getAllSolutionsByTestId(id);
     }
 
+    @PutMapping(path = "/test/check")
+    public List<Solution> automaticTestCheck(@RequestParam(value = "id") Long id) {
+        return solutionService.checkClosedQuestions(id);
+    }
+
+    @PutMapping(path = "/test")
+    public List<Solution> manualTestCheck(@RequestBody manualCheckRequest request) {
+        return solutionService.checkOpenQuestions(request);
+    }
+
     //  Remember about duplicate student!!
     @GetMapping
     public ResponseEntity<StudentTestSolutionPOJO> displayTestSolutionsMadeByStudent(

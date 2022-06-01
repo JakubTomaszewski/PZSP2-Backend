@@ -10,7 +10,7 @@ public interface SolutionRepository extends JpaRepository<Solution, Long> {
     @Override
     List<Solution> findAll();
 
-    List<Solution> getAllByTestId(Long testId);
+    List<Solution> getAllByIdTestId(Long testId);
 
-    List<Solution> getAllByTestIdAndUserId(Long testId, Long userId);
+    List<Solution> getAllByIdTestIdAndIdUserId(Long testId, Long userId);
 }

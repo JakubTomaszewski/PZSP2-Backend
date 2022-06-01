@@ -66,13 +66,18 @@ public class QuestionService {
     public Question addQuestion(QuestionRequest request) {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        Course course = courseRepository.findCourseByCourseCode(request.getCourseCode());
+        //validate course
+        Optional<Course> course = courseRepository.findById(request.getCourseCode());
+        if (course.isEmpty()) {
+            throw new ApiRequestException("Course with that code doesn't exist");
+        }
+        // TODO: validate teacher
         Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
         List<Answer> answers = new ArrayList<>();
         Question question = new Question();
         question.setType(request.getType());
         question.setContent(request.getContent());
-        question.setCourse(course);
+        question.setCourse(course.get());
         question.setTeachers(teacher);
         question.setDateAdded(sqlDate);
         Question saved = questionRepository.save(question);
