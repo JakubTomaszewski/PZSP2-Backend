@@ -23,6 +23,7 @@ import java.util.*;
 @Service
 @Transactional
 public class SolutionService {
+    private static final long ACCEPTABLE_DELAY = 10;
     private final SolutionRepository solutionRepository;
     private final StudentService studentService;
     private final TestService testService;
@@ -127,7 +128,7 @@ public class SolutionService {
         LocalDateTime currentTime = LocalDateTime.now();
         Timestamp sqlEndDate = test.getEndDate();
         LocalDateTime endTime = sqlEndDate.toLocalDateTime();
-        if (currentTime.isAfter(endTime)) {
+        if (currentTime.isAfter(endTime.plusMinutes(ACCEPTABLE_DELAY))) {
             //change it please!
             throw new ApiRequestException("Its after tests deadline!");
         } else {
