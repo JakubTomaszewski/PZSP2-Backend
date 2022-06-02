@@ -12,5 +12,7 @@ public interface SolutionRepository extends JpaRepository<Solution, Long> {
 
     List<Solution> getAllByIdTestId(Long testId);
 
+    List<Solution> findAllByIdIn(List<SolutionPK> ids);
+
     List<Solution> getAllByIdTestIdAndIdUserId(Long testId, Long userId);
 }

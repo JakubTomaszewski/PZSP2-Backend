@@ -42,12 +42,17 @@ public class SolutionService {
     }
 
     public List<Solution> checkOpenQuestions(manualCheckRequest request) {
-        List<Solution> solutions = solutionRepository.getAllByIdTestId(request.getTestId());
-        Set<SolutionPK> keys = request.getGrades().keySet();
+        if (request.getSolutionIds().size() != request.getGrades().size())
+            throw new ApiRequestException("Amount of solutions ids not the same as amount of grades");
+        List<Solution> solutions = solutionRepository.findAllByIdIn(request.getSolutionIds());
+        if (solutions.size() != request.getSolutionIds().size())
+            throw new ApiRequestException("Some of the solutions doesn't exists");
+        Map<SolutionPK, Integer> gradesMap = new HashMap<>();
+        for (int i = 0; i < request.getSolutionIds().size(); i++) {
+            gradesMap.put(request.getSolutionIds().get(i), request.getGrades().get(i));
+        }
         for (Solution solution : solutions) {
-            if (keys.contains(solution.getId())) {
-                solution.setPoints(request.getGrades().get(solution.getId()));
-            }
+            solution.setPoints(gradesMap.get(solution.getId()));
         }
         return solutions;
     }
@@ -66,6 +71,7 @@ public class SolutionService {
                     new SolutionPOJO(
                             solution.getId(),
                             solution.getQuestion().getContent(),
+                            solution.getPoints(),
                             solution.getQuestion().getAnswers(),
                             solution.getContent(),
                             solution.getAnswer()));

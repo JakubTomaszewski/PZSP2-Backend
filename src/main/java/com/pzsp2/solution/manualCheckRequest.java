@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class manualCheckRequest {
     private Long testId;
-    private HashMap<SolutionPK, Integer> grades;
+    private List<SolutionPK> solutionIds;
+    private List<Integer> grades;
 }

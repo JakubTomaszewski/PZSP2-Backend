@@ -11,6 +11,7 @@ import java.util.Collection;
 public class SolutionPOJO {
     private SolutionPK solutionId;
     private String questionContent;
+    private Integer points;
     private Collection<Answer> questionAnswers;
     private String studentAnswerContent;
     private Answer studentAnswer;
