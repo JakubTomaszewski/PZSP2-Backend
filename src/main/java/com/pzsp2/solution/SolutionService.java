@@ -128,8 +128,7 @@ public class SolutionService {
         LocalDateTime currentTime = LocalDateTime.now();
         Timestamp sqlEndDate = test.getEndDate();
         LocalDateTime endTime = sqlEndDate.toLocalDateTime();
-        if (currentTime.isAfter(endTime.plusMinutes(ACCEPTABLE_DELAY))) {
-            //change it please!
+        if (currentTime.isAfter(endTime.plusSeconds(ACCEPTABLE_DELAY))) {
             throw new ApiRequestException("Its after tests deadline!");
         } else {
             Student student = studentService.getOrCreateStudent(
