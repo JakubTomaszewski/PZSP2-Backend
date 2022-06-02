@@ -51,7 +51,7 @@ public class SolutionService {
         return solutions;
     }
 
-    private StudentTestSolutionPOJO createPOJOFromSolutions(Student student, List<Solution> solutions) {
+    public StudentTestSolutionPOJO createPOJOFromSolutions(Student student, List<Solution> solutions) {
         Integer pointsFromClosedQuestions = 0;
         Integer allPointsFromClosedQuestions = 0;
         Integer pointsFromOpenQuestions = 0;
