@@ -87,9 +87,7 @@ public class QuestionService {
                         answerRepository.save(
                                 new Answer(request.getAnswers().get(i), request.getAreCorrect().get(i), saved)));
             }
-            if (saved != null) {
-                saved.setAnswers(answers);
-            }
+            saved.setAnswers(answers);
         }
         return saved;
     }

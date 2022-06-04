@@ -1,6 +1,7 @@
 package com.pzsp2.test;
 
 import com.pzsp2.exception.ApiRequestException;
+import com.pzsp2.question.Question;
 import com.pzsp2.question.QuestionRepository;
 import com.pzsp2.testquestion.TestQuestionRepository;
 import com.pzsp2.user.teacher.Teacher;
@@ -67,6 +68,7 @@ class TestServiceTest {
         verify(testRepository).findById(testId);
     }
 
+    @Test
     void shouldThrowBadRequestExceptionWhenTestDoesntExist() {
         Long testId = 12425L;
         given(testRepository.findById(testId)).willReturn(Optional.empty());
@@ -78,10 +80,39 @@ class TestServiceTest {
     }
 
     @Test
+    void canGetTestByPassword() {
+        //given
+        String password = "test-password";
+        com.pzsp2.test.Test test = new com.pzsp2.test.Test();
+        given(testRepository.findByPassword(password))
+                .willReturn(Optional.of(test));
+        //when
+        underTest.getTestByPassword(password);
+        //then
+        verify(testRepository).findByPassword(password);
+    }
+
+    @Test
+    void getTestByPasswordShouldThrowBadRequestExceptionWhenTestDoesntExist() {
+        //given
+        String password = "test-password";
+        given(testRepository.findByPassword(password)).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.getTestByPassword(password))
+                .isInstanceOf(ApiRequestException.class)
+                .hasMessageContaining("Invalid password");
+    }
+
+    @Test
     void canAddTest() {
         // given
         List<Long> ids = new ArrayList<>();
         ids.add(337283L);
+        List<com.pzsp2.test.Test> tests = new ArrayList<>();
+        tests.add(new com.pzsp2.test.Test());
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question());
         String name = "testName";
         Long teacherId = 1L;
         java.sql.Timestamp date = new Timestamp(1234);
@@ -89,6 +120,9 @@ class TestServiceTest {
         Teacher teacher = new Teacher();
         given(questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId()))
                 .willReturn(request.getQuestionsId().size());
+        given(testRepository.findAll()).willReturn(tests);
+        given(questionRepository.findByQuestionIdIn(request.getQuestionsId()))
+                .willReturn(questions);
         // when
         when(teacherRepository.getTeacherByUserUserId(request.getTeacherId())).thenReturn(teacher);
         when(testRepository.save(Mockito.any(com.pzsp2.test.Test.class)))
@@ -101,6 +135,33 @@ class TestServiceTest {
         verify(testRepository).save(testArgumentCaptor.capture());
         com.pzsp2.test.Test captured = testArgumentCaptor.getValue();
         assertThat(captured.getStartDate()).isNotNull();
+    }
+
+    @Test
+    void shouldSetStartDateWhenItsGivenInRequest() {
+        //given
+        List<Long> ids = new ArrayList<>();
+        ids.add(337283L);
+        String name = "testName";
+        Long teacherId = 1L;
+        java.sql.Timestamp date = new Timestamp(1234);
+        AddTestRequest request = new AddTestRequest(name, ids, teacherId, date, date);
+        Teacher teacher = new Teacher();
+
+        // when
+        when(questionRepository.countQuestionsByQuestionIdIn(request.getQuestionsId()))
+                .thenReturn(request.getQuestionsId().size());
+        when(teacherRepository.getTeacherByUserUserId(request.getTeacherId())).thenReturn(teacher);
+        when(testRepository.save(Mockito.any(com.pzsp2.test.Test.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
+        // then
+
+        underTest.addTest(request);
+        ArgumentCaptor<com.pzsp2.test.Test> testArgumentCaptor =
+                ArgumentCaptor.forClass(com.pzsp2.test.Test.class);
+        verify(testRepository).save(testArgumentCaptor.capture());
+        com.pzsp2.test.Test captured = testArgumentCaptor.getValue();
+        assertThat(captured.getStartDate()).isEqualTo(request.getStartDate());
     }
 
     @Test
