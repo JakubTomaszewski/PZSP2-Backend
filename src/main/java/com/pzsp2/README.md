@@ -15,8 +15,6 @@ Backend part of project is realized with:
 * Maven version: 3.6.3
 * Junit: 999
 * Lombok
-* AssertJ:
-* 
 	
 ## Setup
 To run this project, use these commands using mvn on root folder:
