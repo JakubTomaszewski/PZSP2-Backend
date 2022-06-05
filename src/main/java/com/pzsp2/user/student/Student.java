@@ -1,7 +1,7 @@
 package com.pzsp2.user.student;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pzsp2.solution.Solution;
+import com.pzsp2.test.solution.Solution;
 import com.pzsp2.user.User;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.pzsp2.answer;
+package com.pzsp2.question.answer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

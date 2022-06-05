@@ -1,8 +1,9 @@
 package com.pzsp2.course;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
+import com.pzsp2.user.teacher.coursesteacher.CoursesTeachers;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -53,6 +54,7 @@ public class Course {
         return coursesTeachers;
     }
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "course")
     public Collection<Question> getQuestions() {

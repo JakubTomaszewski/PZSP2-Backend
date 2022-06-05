@@ -1,8 +1,8 @@
 package com.pzsp2.test;
 
-import com.pzsp2.solution.Solution;
-import com.pzsp2.solution.SolutionService;
-import com.pzsp2.solution.StudentTestSolutionPOJO;
+import com.pzsp2.test.solution.Solution;
+import com.pzsp2.test.solution.SolutionService;
+import com.pzsp2.test.solution.StudentTestSolutionPOJO;
 import com.pzsp2.user.student.Student;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Service
 public class CsvExportService {
@@ -28,7 +27,7 @@ public class CsvExportService {
         this.solutionService = solutionService;
     }
 
-    public void writeSolutionsToCSV (Writer writer, Long testId) {
+    public void writeSolutionsToCSV(Writer writer, Long testId) {
         Test test = testService.getTestById(testId);
         List<Solution> solutions = new ArrayList<>(test.getSolutions());
         Map<Student, List<Solution>> studentsTestSolutions = new HashMap<>();

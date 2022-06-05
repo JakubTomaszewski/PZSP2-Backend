@@ -1,10 +1,10 @@
-package com.pzsp2.solution;
+package com.pzsp2.test.solution;
 
-import com.pzsp2.answer.Answer;
-import com.pzsp2.answer.AnswerService;
 import com.pzsp2.exception.ApiRequestException;
 import com.pzsp2.question.Question;
 import com.pzsp2.question.QuestionService;
+import com.pzsp2.question.answer.Answer;
+import com.pzsp2.question.answer.AnswerService;
 import com.pzsp2.test.Test;
 import com.pzsp2.test.TestService;
 import com.pzsp2.user.student.Student;

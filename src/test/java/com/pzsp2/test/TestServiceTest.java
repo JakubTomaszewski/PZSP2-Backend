@@ -3,7 +3,7 @@ package com.pzsp2.test;
 import com.pzsp2.exception.ApiRequestException;
 import com.pzsp2.question.Question;
 import com.pzsp2.question.QuestionRepository;
-import com.pzsp2.testquestion.TestQuestionRepository;
+import com.pzsp2.test.testquestion.TestQuestionRepository;
 import com.pzsp2.user.teacher.Teacher;
 import com.pzsp2.user.teacher.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;

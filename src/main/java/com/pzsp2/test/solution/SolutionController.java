@@ -1,4 +1,4 @@
-package com.pzsp2.solution;
+package com.pzsp2.test.solution;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

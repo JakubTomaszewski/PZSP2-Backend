@@ -1,4 +1,4 @@
-package com.pzsp2.coursesteacher;
+package com.pzsp2.user.teacher.coursesteacher;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pzsp2.course.Course;

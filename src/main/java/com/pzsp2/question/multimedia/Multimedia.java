@@ -1,4 +1,4 @@
-package com.pzsp2.multimedia;
+package com.pzsp2.question.multimedia;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

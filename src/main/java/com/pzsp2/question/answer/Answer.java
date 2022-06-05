@@ -1,9 +1,9 @@
-package com.pzsp2.answer;
+package com.pzsp2.question.answer;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pzsp2.question.Question;
-import com.pzsp2.solution.Solution;
+import com.pzsp2.test.solution.Solution;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

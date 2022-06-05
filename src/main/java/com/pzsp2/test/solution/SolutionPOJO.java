@@ -1,6 +1,6 @@
-package com.pzsp2.solution;
+package com.pzsp2.test.solution;
 
-import com.pzsp2.answer.Answer;
+import com.pzsp2.question.answer.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

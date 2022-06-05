@@ -1,4 +1,4 @@
-package com.pzsp2.testquestion;
+package com.pzsp2.test.testquestion;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

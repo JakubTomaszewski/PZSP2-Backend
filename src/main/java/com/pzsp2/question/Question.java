@@ -3,11 +3,11 @@ package com.pzsp2.question;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.answer.Answer;
 import com.pzsp2.course.Course;
-import com.pzsp2.multimedia.Multimedia;
-import com.pzsp2.solution.Solution;
-import com.pzsp2.testquestion.TestQuestion;
+import com.pzsp2.question.answer.Answer;
+import com.pzsp2.question.multimedia.Multimedia;
+import com.pzsp2.test.solution.Solution;
+import com.pzsp2.test.testquestion.TestQuestion;
 import com.pzsp2.user.teacher.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -97,8 +97,7 @@ public class Question {
     public Collection<Multimedia> getMultimedia() {
         return multimedia;
     }
-
-    @JsonBackReference
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COURSE_CODE", referencedColumnName = "COURSE_CODE", nullable = false)
     public Course getCourse() {

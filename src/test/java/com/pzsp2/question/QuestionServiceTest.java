@@ -1,10 +1,10 @@
 package com.pzsp2.question;
 
-import com.pzsp2.answer.Answer;
-import com.pzsp2.answer.AnswerRepository;
 import com.pzsp2.course.Course;
 import com.pzsp2.course.CourseRepository;
 import com.pzsp2.exception.ApiRequestException;
+import com.pzsp2.question.answer.Answer;
+import com.pzsp2.question.answer.AnswerRepository;
 import com.pzsp2.user.teacher.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
