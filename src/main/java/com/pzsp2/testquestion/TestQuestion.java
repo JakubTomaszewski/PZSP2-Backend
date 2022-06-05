@@ -15,7 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
-@Table(name = "TEST_QUESTIONS", schema = "PZSP04")
+@Table(name = "QUESTIONS_IN_TESTS", schema = "PZSP04")
 @IdClass(TestQuestionPK.class)
 public class TestQuestion {
     private Long questionId;

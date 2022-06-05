@@ -46,7 +46,7 @@ public class Question {
     }
 
     @Basic
-    @Column(name = "TYPE")
+    @Column(name = "TYPE", length = 1, columnDefinition = "char")
     public String getType() {
         return type;
     }
@@ -107,7 +107,7 @@ public class Question {
 
     @ManyToOne()
     @JsonBackReference
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
     public Teacher getTeachers() {
         return teachers;
     }

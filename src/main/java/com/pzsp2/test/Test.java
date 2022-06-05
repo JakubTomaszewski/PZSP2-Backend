@@ -79,7 +79,7 @@ public class Test {
 
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
     public Teacher getTeacher() {
         return teacher;
     }

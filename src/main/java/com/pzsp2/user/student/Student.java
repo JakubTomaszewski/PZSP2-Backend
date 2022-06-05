@@ -29,7 +29,7 @@ public class Student extends User {
     }
 
     @Basic
-    @Column(name = "STUD_STUDENT_ID_NO")
+    @Column(name = "STUDENT_ID_NO", length = 6, columnDefinition = "char")
     public String getIdNumber() {
         return idNumber;
     }

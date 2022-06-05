@@ -15,11 +15,14 @@ import java.util.Objects;
 @Entity
 @Setter
 @AllArgsConstructor
-@Table(name = "SOLUTIONS", schema = "PZSP04")
+@Table(name = "STUDENT_ANSWERS", schema = "PZSP04")
 public class Solution {
+    public final static String OPEN_QUESTION_SOLUTION = "o";
+    public final static String CLOSED_QUESTION_SOLUTION = "c";
     private SolutionPK id;
     private String content;
     private Integer points;
+    private String type;
     private Question question;
     private Test test;
     private Answer answer;
@@ -32,6 +35,12 @@ public class Solution {
     @EmbeddedId
     public SolutionPK getId() {
         return id;
+    }
+
+    @Basic
+    @Column(name = "TYPE", length = 1, columnDefinition = "char")
+    public String getType() {
+        return type;
     }
 
     @Basic
@@ -97,7 +106,7 @@ public class Solution {
     @ManyToOne
     @JoinColumn(
             name = "USER_ID",
-            referencedColumnName = "USER_USER_ID",
+            referencedColumnName = "USER_ID",
             nullable = false,
             insertable = false,
             updatable = false)

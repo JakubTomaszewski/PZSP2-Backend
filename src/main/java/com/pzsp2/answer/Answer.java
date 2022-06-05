@@ -17,7 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Setter
 @NoArgsConstructor
-@Table(name = "ANSWERS", schema = "PZSP04")
+@Table(name = "AVAILABLE_ANSWERS", schema = "PZSP04")
 public class Answer {
     private Long answerId;
     private String content;
@@ -45,7 +45,7 @@ public class Answer {
     }
 
     @Basic
-    @Column(name = "IS_CORRECT")
+    @Column(name = "IS_CORRECT", columnDefinition = "CHAR(1)")
     public Boolean getIsCorrect() {
         return isCorrect;
     }

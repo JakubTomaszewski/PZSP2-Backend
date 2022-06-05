@@ -34,7 +34,7 @@ public class Multimedia {
     }
 
     @Basic
-    @Column(name = "TYPE")
+    @Column(name = "TYPE", length = 1, columnDefinition = "char")
     public String getType() {
         return type;
     }

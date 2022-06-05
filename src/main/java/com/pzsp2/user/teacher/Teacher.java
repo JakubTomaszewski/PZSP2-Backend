@@ -31,14 +31,14 @@ public class Teacher extends User {
     private Collection<Test> tests;
 
     @Basic
-    @Column(name = "TEACH_LOGIN")
+    @Column(name = "LOGIN")
     public String getLogin() {
         return login;
     }
 
     @Basic
     @JsonIgnore
-    @Column(name = "TEACH_PASSWORD")
+    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }

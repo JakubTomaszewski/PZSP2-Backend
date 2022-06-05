@@ -154,6 +154,7 @@ public class SolutionService {
                 solution.setQuestion(question);
                 solution.setStudent(student);
                 solution.setTest(test);
+                solution.setType(Solution.OPEN_QUESTION_SOLUTION);
                 solutionRepository.save(solution);
                 solutions.add(solution);
             }
@@ -166,6 +167,7 @@ public class SolutionService {
                 solution.setQuestion(question);
                 solution.setStudent(student);
                 solution.setTest(test);
+                solution.setType(Solution.CLOSED_QUESTION_SOLUTION);
                 solutionRepository.save(solution);
                 solutions.add(solution);
             }

@@ -14,7 +14,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "COURSES_TEACHERS", schema = "PZSP04")
+@Table(name = "TEACHING_COURSES", schema = "PZSP04")
 @IdClass(CoursesTeachersPK.class)
 public class CoursesTeachers {
     private String courseCode;
@@ -63,7 +63,7 @@ public class CoursesTeachers {
     @ManyToOne
     @JoinColumn(
             name = "USER_ID",
-            referencedColumnName = "USER_USER_ID",
+            referencedColumnName = "USER_ID",
             nullable = false,
             insertable = false,
             updatable = false)
