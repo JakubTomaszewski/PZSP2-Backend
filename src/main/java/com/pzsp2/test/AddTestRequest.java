@@ -13,6 +13,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class AddTestRequest {
     @NotNull
+    private String name;
+
+    @NotNull
     private List<Long> questionsId;
 
     @NotNull

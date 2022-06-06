@@ -3,10 +3,10 @@ package com.pzsp2.user.teacher;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.coursesteacher.CoursesTeachers;
 import com.pzsp2.question.Question;
 import com.pzsp2.test.Test;
 import com.pzsp2.user.User;
+import com.pzsp2.user.teacher.coursesteacher.CoursesTeachers;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,14 +31,14 @@ public class Teacher extends User {
     private Collection<Test> tests;
 
     @Basic
-    @Column(name = "TEACH_LOGIN")
+    @Column(name = "LOGIN")
     public String getLogin() {
         return login;
     }
 
     @Basic
     @JsonIgnore
-    @Column(name = "TEACH_PASSWORD")
+    @Column(name = "PASSWORD")
     public String getPassword() {
         return password;
     }

@@ -1,10 +1,10 @@
 package com.pzsp2.question;
 
-import com.pzsp2.answer.Answer;
-import com.pzsp2.answer.AnswerRepository;
 import com.pzsp2.course.Course;
 import com.pzsp2.course.CourseRepository;
 import com.pzsp2.exception.ApiRequestException;
+import com.pzsp2.question.answer.Answer;
+import com.pzsp2.question.answer.AnswerRepository;
 import com.pzsp2.user.teacher.Teacher;
 import com.pzsp2.user.teacher.TeacherRepository;
 import lombok.AllArgsConstructor;
@@ -66,13 +66,18 @@ public class QuestionService {
     public Question addQuestion(QuestionRequest request) {
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        Course course = courseRepository.findCourseByCourseCode(request.getCourseCode());
+        //validate course
+        Optional<Course> course = courseRepository.findById(request.getCourseCode());
+        if (course.isEmpty()) {
+            throw new ApiRequestException("Course with that code doesn't exist");
+        }
+        // TODO: validate teacher
         Teacher teacher = teacherRepository.getTeacherByUserUserId(request.getTeacherId());
         List<Answer> answers = new ArrayList<>();
         Question question = new Question();
         question.setType(request.getType());
         question.setContent(request.getContent());
-        question.setCourse(course);
+        question.setCourse(course.get());
         question.setTeachers(teacher);
         question.setDateAdded(sqlDate);
         Question saved = questionRepository.save(question);
@@ -82,9 +87,7 @@ public class QuestionService {
                         answerRepository.save(
                                 new Answer(request.getAnswers().get(i), request.getAreCorrect().get(i), saved)));
             }
-            if (saved != null) {
-                saved.setAnswers(answers);
-            }
+            saved.setAnswers(answers);
         }
         return saved;
     }

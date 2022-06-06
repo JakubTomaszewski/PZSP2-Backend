@@ -29,25 +29,25 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_USER_ID")
+    @Column(name = "USER_ID")
     public Long getUserUserId() {
         return userUserId;
     }
 
     @Basic
-    @Column(name = "USER_LAST_NAME")
+    @Column(name = "LAST_NAME")
     public String getUserLastName() {
         return userLastName;
     }
 
     @Basic
-    @Column(name = "USER_FIRST_NAME")
+    @Column(name = "FIRST_NAME")
     public String getUserFirstName() {
         return userFirstName;
     }
 
     @Basic
-    @Column(name = "USER_TYPE")
+    @Column(name = "TYPE", length = 1, columnDefinition = "char")
     public String getUserType() {
         return userType;
     }

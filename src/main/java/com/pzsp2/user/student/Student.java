@@ -1,7 +1,7 @@
 package com.pzsp2.user.student;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pzsp2.solution.Solution;
+import com.pzsp2.test.solution.Solution;
 import com.pzsp2.user.User;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class Student extends User {
     }
 
     @Basic
-    @Column(name = "STUD_STUDENT_ID_NO")
+    @Column(name = "STUDENT_ID_NO", length = 6, columnDefinition = "char")
     public String getIdNumber() {
         return idNumber;
     }

@@ -2,8 +2,8 @@ package com.pzsp2.test;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.pzsp2.solution.Solution;
-import com.pzsp2.testquestion.TestQuestion;
+import com.pzsp2.test.solution.Solution;
+import com.pzsp2.test.testquestion.TestQuestion;
 import com.pzsp2.user.teacher.Teacher;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +28,7 @@ public class Test {
     private Timestamp startDate;
     private Timestamp endDate;
     private String password;
+    private String name;
     private Collection<Solution> solutions;
     private Teacher teacher;
     private Collection<TestQuestion> testQuestions;
@@ -58,6 +59,12 @@ public class Test {
     }
 
     @Basic
+    @Column(name = "NAME")
+    public String getName() {
+        return name;
+    }
+
+    @Basic
     @Column(name = "LINK")
     public String getPassword() {
         return password;
@@ -72,7 +79,7 @@ public class Test {
 
     @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
     public Teacher getTeacher() {
         return teacher;
     }
